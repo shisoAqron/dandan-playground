@@ -57,8 +57,8 @@ export default function PlayerInfo({ player, isLocal, handCount, battlefieldCoun
           {player.life}
         </span>
         <button className="secondary small" onClick={() => handleSetLife(+1)}>+1</button>
-        <button className="secondary small" onClick={() => handleSetLife(-5)}>−5</button>
-        <button className="secondary small" onClick={() => handleSetLife(+5)}>+5</button>
+        <button className="secondary small" onClick={() => handleSetLife(-4)}>−4</button>
+        <button className="secondary small" onClick={() => handleSetLife(+4)}>+4</button>
         <button className="secondary small" onClick={() => setShowLifeEdit(!showLifeEdit)}>指定</button>
       </div>
 
