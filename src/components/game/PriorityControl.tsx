@@ -17,7 +17,7 @@ const PHASE_LABELS: Record<Phase, string> = {
   ending: "終了",
 };
 
-export default function PriorityControl() {
+export default function PriorityControl({ isLocal = false }: { isLocal?: boolean }) {
   const gameState = useMatchStore((s) => s.gameState);
   const sendCommand = useMatchStore((s) => s.sendCommand);
   const playerId = useMatchStore((s) => s.playerId);
@@ -31,6 +31,7 @@ export default function PriorityControl() {
     : "なし";
 
   const isMyPriority = priority.holderPlayerId === playerId;
+  const canPassPriority = isMyPriority || isLocal;
 
   // storeのIDを優先し、gameStateのplayerOrderはフォールバックとして使う
   const knownPlayerIds = storeOpponentId
@@ -96,7 +97,7 @@ export default function PriorityControl() {
                 {PHASE_LABELS[p]}
               </button>
             ))}
-            <button className="danger small" onClick={handleEndTurn} disabled={playerId !== turnPlayerId}>
+            <button className="danger small" onClick={handleEndTurn} disabled={!isLocal && playerId !== turnPlayerId}>
               ターン終了
             </button>
           </div>
@@ -104,7 +105,7 @@ export default function PriorityControl() {
       )}
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-        {isMyPriority && (
+        {canPassPriority && (
           <button className="primary small" onClick={handlePassPriority}>
             優先権をパス
           </button>

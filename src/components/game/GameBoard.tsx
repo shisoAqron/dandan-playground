@@ -179,7 +179,7 @@ export default function GameBoard({ isLocal }: Props) {
         {/* スタック & 優先権 */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
           <StackView />
-          <PriorityControl />
+          <PriorityControl isLocal={isLocal} />
         </div>
 
         {/* 自分のエリア */}
