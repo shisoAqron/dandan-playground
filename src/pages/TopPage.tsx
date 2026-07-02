@@ -15,7 +15,7 @@ export default function TopPage() {
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "32px", padding: "24px" }}>
       <div style={{ textAlign: "center" }}>
         <h1 style={{ fontSize: "3rem", fontWeight: "bold", color: "var(--accent)", marginBottom: "8px" }}>
-          Dandân Online
+          Dandân Playground
         </h1>
         <p style={{ color: "var(--text-muted)", fontSize: "1rem" }}>
           Forgetful Fish — オンライン2人対戦
