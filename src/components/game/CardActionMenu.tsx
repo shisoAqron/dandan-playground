@@ -64,16 +64,16 @@ export default function CardActionMenu({ instance, zone, onClose, activePlayerId
       }>
         呪文として唱える
       </button>
-      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("shared-graveyard")}>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() => moveCard("shared-graveyard")}>
         捨てる（墓地へ）
       </button>
-      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("exile")}>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() => moveCard("exile")}>
         追放する
       </button>
-      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("shared-library", "top")}>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() => moveCard("shared-library", "top")}>
         ライブラリートップへ
       </button>
-      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("shared-library", "bottom")}>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() => moveCard("shared-library", "bottom")}>
         ライブラリーボトムへ
       </button>
     </>
