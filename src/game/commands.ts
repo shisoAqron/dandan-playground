@@ -48,6 +48,7 @@ export function commandToEvent(
           from: command.from,
           to: command.to,
           position: command.position,
+          revealed: command.revealed,
         },
       ];
     }
@@ -96,7 +97,7 @@ export function commandToEvent(
     case "reveal-library-top": {
       const { playerId, count } = command;
       const topIds = state.sharedLibrary.cardInstanceIds.slice(0, count);
-      return [{ type: "library-top-revealed", playerId, cardInstanceIds: topIds }];
+      return [{ type: "library-top-revealed", playerId, cardInstanceIds: topIds, private: command.private }];
     }
 
     case "set-life": {
@@ -146,10 +147,16 @@ export function commandToEvent(
       const top = state.stack[state.stack.length - 1];
       if (!top) return [];
       const nextPriorityHolderPlayerId = state.turnPlayerId ?? state.playerOrder[0];
+      const cardInst = state.cardInstances[top.cardInstanceId];
+      const typeLine = cardInst?.typeLine ?? "";
+      const isSpell = typeLine.includes("Instant") || typeLine.includes("Sorcery");
+      const destination: "graveyard" | "battlefield" = isSpell ? "graveyard" : "battlefield";
       return [
         {
           type: "stack-top-resolved",
           resolvedStackItemId: top.stackItemId,
+          cardInstanceId: top.cardInstanceId,
+          destination,
           nextPriorityHolderPlayerId,
         },
       ];
@@ -188,13 +195,36 @@ export function commandToEvent(
       ];
     }
 
+    case "shuffle-library": {
+      const { playerId } = command;
+      const shuffled = [...state.sharedLibrary.cardInstanceIds];
+      let h = Date.now();
+      const rand = () => {
+        h = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
+        h = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
+        h ^= h >>> 16;
+        return (h >>> 0) / 0x100000000;
+      };
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return [
+        { type: "library-shuffled", playerId, cardInstanceIds: shuffled },
+        { type: "library-top-reordered", playerId, cardInstanceIds: shuffled },
+      ];
+    }
+
     case "counter-spell": {
       const { playerId, stackItemId, toLibraryTop } = command;
       void playerId;
+      const item = state.stack.find((s) => s.stackItemId === stackItemId);
+      const cardInstanceId = item?.cardInstanceId ?? "";
       return [
         {
           type: "spell-countered",
           stackItemId,
+          cardInstanceId,
           toLibraryTop: toLibraryTop ?? false,
         },
       ];

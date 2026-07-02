@@ -40,6 +40,7 @@ export function buildCardInstances(preset: CardPoolPreset): CardInstance[] {
         cardId: card.id,
         oracleId: card.oracleId,
         name: card.name,
+        typeLine: card.typeLine,
         ownerPlayerId: null,
         controllerPlayerId: null,
         tapped: false,

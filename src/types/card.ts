@@ -37,6 +37,7 @@ export type CardInstance = {
   cardId: string;
   oracleId: string;
   name: string;
+  typeLine: string;
   ownerPlayerId: string | null;
   controllerPlayerId: string | null;
   tapped: boolean;

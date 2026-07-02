@@ -220,11 +220,78 @@ export default function GameBoard({ isLocal }: Props) {
             <h3 style={{ fontSize: "14px" }}>イベントログ</h3>
             <button className="secondary small" onClick={() => setShowEventLog(false)}>×</button>
           </div>
-          {[...eventLog].reverse().map((e) => (
-            <div key={e.seq} style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "4px", padding: "4px", background: "var(--bg-card)", borderRadius: "4px" }}>
-              <span style={{ color: "var(--accent)" }}>#{e.seq}</span> {e.event.type}
-            </div>
-          ))}
+          {[...eventLog].reverse().map((e) => {
+            const ev = e.event;
+            const ZONE_LABEL: Record<string, string> = {
+              "shared-library": "ライブラリー",
+              "hand": "手札",
+              "battlefield": "戦場",
+              "shared-graveyard": "墓地",
+              "exile": "追放",
+              "stack": "スタック",
+            };
+            let detail = "";
+            if (ev.type === "card-drawn") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              const count = ev.cardInstanceIds.length;
+              detail = `${who} が ${count}枚 ドローした`;
+            } else if (ev.type === "library-top-revealed") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              if (ev.private) {
+                detail = `${who} がトップ ${ev.cardInstanceIds.length} 枚を確認（非公開）`;
+              } else {
+                const names = ev.cardInstanceIds
+                  .map((id) => gameState.cardInstances[id]?.name ?? id)
+                  .join(", ");
+                detail = `${who} が公開: ${names}`;
+              }
+            } else if (ev.type === "library-shuffled") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              detail = `${who} がライブラリーをシャッフルした`;
+            } else if (ev.type === "library-top-reordered") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              detail = `${who} が ${ev.cardInstanceIds.length}枚 トップに戻した`;
+            } else if (ev.type === "land-played") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+              detail = `${who} が土地をプレイ: ${cardName}`;
+            } else if (ev.type === "spell-cast") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+              detail = `${who} が呪文を唱えた: ${cardName}`;
+            } else if (ev.type === "controller-set") {
+              const who = gameState.players[ev.controllerPlayerId]?.displayName ?? ev.controllerPlayerId;
+              const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+              detail = `${who} が ${cardName} のコントロールを得た`;
+            } else if (ev.type === "card-tapped") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+              detail = `${who}: ${cardName} を${ev.tapped ? "タップ" : "アンタップ"}`;
+            } else if (ev.type === "stack-top-resolved") {
+              const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+              const dest = ev.destination === "battlefield" ? "戦場へ" : "墓地へ";
+              detail = `${cardName} が解決された → ${dest}`;
+            } else if (ev.type === "spell-countered") {
+              const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+              const dest = ev.toLibraryTop ? "ライブラリートップへ" : "墓地へ";
+              detail = `${cardName} が打ち消された → ${dest}`;
+            } else if (ev.type === "card-moved") {
+              const cardName = ev.revealed !== false
+                ? (gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId)
+                : "？（非公開）";
+              const fromLabel = ZONE_LABEL[ev.from] ?? ev.from;
+              const toLabel = ZONE_LABEL[ev.to] ?? ev.to;
+              const posLabel = ev.position === "top" ? "（トップ）" : ev.position === "bottom" ? "（ボトム）" : "";
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              detail = `${who}: ${cardName} ${fromLabel} → ${toLabel}${posLabel}`;
+            }
+            return (
+              <div key={e.seq} style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "4px", padding: "4px", background: "var(--bg-card)", borderRadius: "4px" }}>
+                <span style={{ color: "var(--accent)" }}>#{e.seq}</span> {ev.type}
+                {detail && <div style={{ color: "var(--text)", marginTop: "2px" }}>{detail}</div>}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

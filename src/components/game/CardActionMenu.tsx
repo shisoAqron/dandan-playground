@@ -82,6 +82,9 @@ export default function CardActionMenu({ instance, zone, onClose }: Props) {
       <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("hand")}>
         手札へ戻す
       </button>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("shared-library", "top")}>
+        ライブラリートップへ
+      </button>
       <div style={{ marginBottom: "6px" }}>
         <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "4px" }}>コントロール変更先のプレイヤーID</p>
         {Object.keys(gameState.players).filter(pid => pid !== instance.controllerPlayerId).map(pid => (

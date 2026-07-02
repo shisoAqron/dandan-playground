@@ -270,6 +270,11 @@ export function applyGameEvent(state: GameState, event: GameEvent): GameState {
       };
     }
 
+    case "library-shuffled": {
+      // state変更は library-top-reordered が行うため no-op
+      return state;
+    }
+
     case "library-top-reordered": {
       const topCount = event.cardInstanceIds.length;
       const rest = state.sharedLibrary.cardInstanceIds.slice(topCount);
@@ -374,14 +379,27 @@ export function applyGameEvent(state: GameState, event: GameEvent): GameState {
       const newStack = state.stack.filter(
         (s) => s.stackItemId !== event.resolvedStackItemId
       );
-      // 解決されたカードを墓地へ
-      const newGraveyard = resolvedItem
-        ? [...state.sharedGraveyard.cardInstanceIds, resolvedItem.cardInstanceId]
-        : state.sharedGraveyard.cardInstanceIds;
+      let newGraveyard = [...state.sharedGraveyard.cardInstanceIds];
+      let newBattlefield = [...state.battlefield];
+
+      if (resolvedItem) {
+        if (event.destination === "battlefield") {
+          const inst = state.cardInstances[resolvedItem.cardInstanceId];
+          if (inst) {
+            newBattlefield = [
+              ...newBattlefield,
+              { ...inst, controllerPlayerId: resolvedItem.controllerPlayerId },
+            ];
+          }
+        } else {
+          newGraveyard = [...newGraveyard, resolvedItem.cardInstanceId];
+        }
+      }
       return {
         ...state,
         stack: newStack,
         sharedGraveyard: { cardInstanceIds: newGraveyard },
+        battlefield: newBattlefield,
         priority: {
           holderPlayerId: event.nextPriorityHolderPlayerId,
           consecutivePasses: 0,

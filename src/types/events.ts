@@ -11,6 +11,7 @@ export type GameCommand =
       from: Zone;
       to: Zone;
       position?: ZonePosition;
+      revealed?: boolean;
     }
   | {
       type: "reorder-library-top";
@@ -19,7 +20,7 @@ export type GameCommand =
     }
   | { type: "put-card-on-library-top"; playerId: string; cardInstanceId: string }
   | { type: "put-card-on-library-bottom"; playerId: string; cardInstanceId: string }
-  | { type: "reveal-library-top"; playerId: string; count: number }
+  | { type: "reveal-library-top"; playerId: string; count: number; private?: boolean }
   | { type: "set-life"; playerId: string; life: number }
   | { type: "tap-card"; playerId: string; cardInstanceId: string; tapped: boolean }
   | {
@@ -35,7 +36,8 @@ export type GameCommand =
   | { type: "set-phase"; playerId: string; phase: Phase }
   | { type: "end-turn"; playerId: string }
   | { type: "discard-card"; playerId: string; cardInstanceId: string }
-  | { type: "counter-spell"; playerId: string; stackItemId: string; toLibraryTop?: boolean };
+  | { type: "counter-spell"; playerId: string; stackItemId: string; toLibraryTop?: boolean }
+  | { type: "shuffle-library"; playerId: string };
 
 export type GameEvent =
   | {
@@ -62,9 +64,11 @@ export type GameEvent =
       from: Zone;
       to: Zone;
       position?: ZonePosition;
+      revealed?: boolean;
     }
+  | { type: "library-shuffled"; playerId: string; cardInstanceIds: string[] }
   | { type: "library-top-reordered"; playerId: string; cardInstanceIds: string[] }
-  | { type: "library-top-revealed"; playerId: string; cardInstanceIds: string[] }
+  | { type: "library-top-revealed"; playerId: string; cardInstanceIds: string[]; private?: boolean }
   | { type: "life-set"; playerId: string; life: number }
   | { type: "card-tapped"; playerId: string; cardInstanceId: string; tapped: boolean }
   | {
@@ -84,11 +88,13 @@ export type GameEvent =
   | {
       type: "stack-top-resolved";
       resolvedStackItemId: string;
+      cardInstanceId: string;
+      destination: "graveyard" | "battlefield";
       nextPriorityHolderPlayerId: string;
     }
   | { type: "phase-set"; phase: Phase }
   | { type: "turn-ended"; playerId: string; nextPlayerId: string }
-  | { type: "spell-countered"; stackItemId: string; toLibraryTop: boolean };
+  | { type: "spell-countered"; stackItemId: string; cardInstanceId: string; toLibraryTop: boolean };
 
 export type SequencedGameEvent = {
   seq: number;

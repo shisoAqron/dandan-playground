@@ -30,7 +30,8 @@ export default function LibraryModal({ onClose }: { onClose: () => void }) {
     setMode("view");
     const topIds = libraryIds.slice(0, revealCount);
     setViewIds(topIds);
-    sendCommand({ type: "reveal-library-top", playerId, count: revealCount });
+    // 見るモードは非公開 - private フラグ付きで送信（ログ区別用）
+    sendCommand({ type: "reveal-library-top", playerId, count: revealCount, private: true });
   };
 
   const moveInView = (idx: number, direction: -1 | 1) => {
@@ -42,12 +43,7 @@ export default function LibraryModal({ onClose }: { onClose: () => void }) {
   };
 
   const handleShuffle = () => {
-    const shuffled = [...libraryIds];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    sendCommand({ type: "reorder-library-top", playerId, cardInstanceIds: shuffled });
+    sendCommand({ type: "shuffle-library", playerId });
   };
 
   const handleConfirmView = () => {
@@ -55,8 +51,20 @@ export default function LibraryModal({ onClose }: { onClose: () => void }) {
     onClose();
   };
 
+  // モーダルを閉じるとき: 公開中の状態があればクリア、ローカル状態をリセット
+  const handleClose = () => {
+    if (gameState.revealedLibraryTop.length > 0) {
+      // reorder-library-top（同順）を送ることで revealedLibraryTop をクリア
+      const topIds = gameState.revealedLibraryTop.filter((id) => libraryIdSet.has(id));
+      sendCommand({ type: "reorder-library-top", playerId, cardInstanceIds: topIds });
+    }
+    setMode("reveal");
+    setViewIds([]);
+    onClose();
+  };
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div className="modal-overlay" onClick={handleClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "4px" }}>
           <h2 style={{ margin: 0 }}>ライブラリー操作</h2>
@@ -95,6 +103,7 @@ export default function LibraryModal({ onClose }: { onClose: () => void }) {
               for (const id of targets) {
                 sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "shared-graveyard" });
               }
+              handleClose();
             }}>
               墓地へ
             </button>
@@ -103,6 +112,7 @@ export default function LibraryModal({ onClose }: { onClose: () => void }) {
               for (const id of targets) {
                 sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "exile" });
               }
+              handleClose();
             }}>
               追放
             </button>
@@ -159,15 +169,19 @@ export default function LibraryModal({ onClose }: { onClose: () => void }) {
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: "2px", marginTop: "2px", alignItems: "stretch" }}>
                       <button className="secondary small" style={{ padding: "2px 4px", fontSize: "10px" }} onClick={() => {
-                        sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "hand" });
+                        sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "hand", revealed: true });
                         setViewIds(viewIds.filter(x => x !== id));
-                      }}>手札へ</button>
+                      }}>手札へ（公開）</button>
+                      <button className="secondary small" style={{ padding: "2px 4px", fontSize: "10px" }} onClick={() => {
+                        sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "hand", revealed: false });
+                        setViewIds(viewIds.filter(x => x !== id));
+                      }}>手札へ（非公開）</button>
                       <button className="secondary small" style={{ padding: "2px 4px", fontSize: "10px" }} onClick={() => {
                         sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "shared-graveyard" });
                         setViewIds(viewIds.filter(x => x !== id));
                       }}>墓地へ</button>
                       <button className="secondary small" style={{ padding: "2px 4px", fontSize: "10px" }} onClick={() => {
-                        sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "shared-library", position: "bottom" });
+                        sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "shared-library", position: "bottom", revealed: false });
                         setViewIds(viewIds.filter(x => x !== id));
                       }}>ボトムへ</button>
                     </div>
@@ -181,7 +195,7 @@ export default function LibraryModal({ onClose }: { onClose: () => void }) {
           </div>
         )}
 
-        <button className="secondary" style={{ width: "100%", marginTop: "12px" }} onClick={onClose}>
+        <button className="secondary" style={{ width: "100%", marginTop: "12px" }} onClick={handleClose}>
           閉じる
         </button>
       </div>
