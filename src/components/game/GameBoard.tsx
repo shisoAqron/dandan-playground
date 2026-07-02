@@ -42,6 +42,7 @@ export default function GameBoard({ isLocal }: Props) {
   const [showExile, setShowExile] = useState(false);
   const [showLibraryTop, setShowLibraryTop] = useState(false);
   const [showEventLog, setShowEventLog] = useState(false);
+  const [showDrawModal, setShowDrawModal] = useState(false);
   const eventLog = useMatchStore((s) => s.eventLog);
 
   // 新着イベントをトーストで表示
@@ -269,9 +270,15 @@ export default function GameBoard({ isLocal }: Props) {
               追放 ({gameState.exile.length})
             </button>
             <button className="secondary small" onClick={() => setShowLibraryTop(true)}>
-              ライブラリー操作
+              ライブラリー ({sharedLibrary.cardInstanceIds.length})
             </button>
-            <button className="primary small" onClick={() => sendCommand({ type: "draw-card", playerId, count: 1 })}>
+            <button className="primary small" onClick={() => {
+              if (isLocal) {
+                setShowDrawModal(true);
+              } else {
+                sendCommand({ type: "draw-card", playerId, count: 1 });
+              }
+            }}>
               ドロー
             </button>
           </div>
@@ -313,6 +320,30 @@ export default function GameBoard({ isLocal }: Props) {
       </div>
 
       {/* モーダル */}
+      {showDrawModal && isLocal && (
+        <div className="modal-overlay" onClick={() => setShowDrawModal(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "320px" }}>
+            <h2 style={{ marginBottom: "16px" }}>どちらがドローしますか？</h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+              {playerOrder.map((pid) => (
+                <button
+                  key={pid}
+                  className="primary"
+                  onClick={() => {
+                    sendCommand({ type: "draw-card", playerId: pid, count: 1 });
+                    setShowDrawModal(false);
+                  }}
+                >
+                  {players[pid]?.displayName ?? pid}
+                </button>
+              ))}
+            </div>
+            <button className="secondary" style={{ width: "100%", marginTop: "12px" }} onClick={() => setShowDrawModal(false)}>
+              キャンセル
+            </button>
+          </div>
+        </div>
+      )}
       {showGraveyard && <SharedGraveyardView onClose={() => setShowGraveyard(false)} />}
       {showExile && <ExileView onClose={() => setShowExile(false)} />}
       {showLibraryTop && <LibraryModal onClose={() => setShowLibraryTop(false)} />}

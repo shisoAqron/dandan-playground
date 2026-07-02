@@ -3,6 +3,17 @@ import { useMatchStore } from "../../store/matchStore";
 import CardView from "../shared/CardView";
 import CardActionMenu from "./CardActionMenu";
 import type { CardInstance } from "../../types/card";
+import type { CardData } from "../../types/card";
+import dandanCardsRaw from "../../data/dandan-cards.json";
+
+const cardDataList = dandanCardsRaw as CardData[];
+const cardDataMap = new Map(cardDataList.map((c) => [c.id, c]));
+
+/** 土地かどうかを判定 */
+function isLand(inst: CardInstance): boolean {
+  const data = cardDataMap.get(inst.cardId);
+  return !!data?.typeLine?.includes("Land");
+}
 
 const LONG_PRESS_MS = 500;
 
@@ -23,9 +34,14 @@ export default function BattlefieldView({ playerId, label }: Props) {
 
   if (!gameState) return null;
 
-  const myCards = gameState.battlefield.filter(
+  const allMyCards = gameState.battlefield.filter(
     (c) => c.controllerPlayerId === playerId
   );
+  // 非土地（クリーチャー・エンチャント等）を左、土地を右に並べる
+  const myCards = [
+    ...allMyCards.filter((c) => !isLand(c)),
+    ...allMyCards.filter((c) => isLand(c)),
+  ];
 
   const hasIsland = myCards.some((c) => c.name === "Island");
 

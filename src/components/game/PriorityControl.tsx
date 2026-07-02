@@ -49,34 +49,30 @@ export default function PriorityControl({ isLocal = false }: { isLocal?: boolean
       padding: "8px 12px",
       fontSize: "13px",
     }}>
-      {/* フェイズボタン（中央）+ ターン終了（右） */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: "4px" }}>
-        <div />
-        <div style={{ display: "flex", gap: "4px", flexWrap: "wrap", justifyContent: "center" }}>
-          {PHASES.map((p) => {
-            const isCurrent = phase === p;
-            return (
-              <button
-                key={p}
-                className={isCurrent ? "primary small" : "secondary small"}
-                onClick={() => handleSetPhase(p)}
-                style={isCurrent ? { boxShadow: "0 0 0 2px var(--priority)" } : {}}
-              >
-                {PHASE_LABELS[p]}
-              </button>
-            );
-          })}
-        </div>
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <button
-            className="danger small"
-            onClick={handleEndTurn}
-            disabled={!canEndTurn}
-            title={!canEndTurn ? "ターンプレイヤーのみ操作可能" : undefined}
-          >
-            ターン終了
-          </button>
-        </div>
+      {/* フェイズボタン + ターン終了（エンドの隣） */}
+      <div style={{ display: "flex", gap: "4px", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
+        {PHASES.map((p) => {
+          const isCurrent = phase === p;
+          return (
+            <button
+              key={p}
+              className={isCurrent ? "primary small" : "secondary small"}
+              onClick={() => handleSetPhase(p)}
+              style={isCurrent ? { boxShadow: "0 0 0 2px var(--priority)" } : {}}
+            >
+              {PHASE_LABELS[p]}
+            </button>
+          );
+        })}
+        <button
+          className="danger small"
+          onClick={handleEndTurn}
+          disabled={!canEndTurn}
+          title={!canEndTurn ? "ターンプレイヤーのみ操作可能" : undefined}
+          style={{ marginLeft: "8px" }}
+        >
+          ターン終了
+        </button>
       </div>
     </div>
   );
