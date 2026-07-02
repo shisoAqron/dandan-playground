@@ -198,7 +198,7 @@ function encodeSignal(payload: SignalPayload): string {
   const compressed = deflateSync(bytes);
   const b64 = btoa(String.fromCharCode(...compressed))
     .replace(/\+/g, "-")
-    .replace(/\//g, "_")
+    .replace(/\//g, "~")
     .replace(/=+$/, "");
   return SIGNAL_PREFIX + b64;
 }
@@ -209,6 +209,8 @@ function decodeSignal(code: string): SignalPayload {
   }
   const b64 = code.slice(SIGNAL_PREFIX.length)
     .replace(/-/g, "+")
+    .replace(/~/g, "/")
+    // 旧フォーマット（_ を使っていた版）との互換性
     .replace(/_/g, "/");
   const binary = atob(b64);
   const bytes = new Uint8Array(binary.length);
