@@ -23,7 +23,14 @@ export default function JoinPage() {
       const transport = new NativeWebRtcManualTransport();
       transportRef.current = transport;
 
-      const code = await transport.createAnswer(offerCode.trim());
+      // URLごと貼り付けられた場合に offer パラメータを抽出する
+      let rawCode = offerCode.trim();
+      if (rawCode.includes("offer=")) {
+        const match = rawCode.match(/offer=([^\s&]+)/);
+        if (match) rawCode = decodeURIComponent(match[1]);
+      }
+
+      const code = await transport.createAnswer(rawCode);
       setAnswerCode(code);
       setStep("answer");
       setLoading(false);
@@ -112,6 +119,7 @@ export default function JoinPage() {
             </button>
             <button className="secondary" onClick={() => navigate("/")}>戻る</button>
           </div>
+          {error && <p style={{ color: "var(--danger)", marginTop: "8px", fontSize: "13px" }}>{error}</p>}
         </div>
       )}
 
