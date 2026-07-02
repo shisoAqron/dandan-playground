@@ -38,6 +38,7 @@ function replacePlayerIdInState(state: GameState, oldId: string, newId: string, 
     },
     turnPlayerId: state.turnPlayerId === oldId ? newId : state.turnPlayerId,
     activePlayerId: state.activePlayerId === oldId ? newId : state.activePlayerId,
+    mulliganPending: (state.mulliganPending ?? []).map((id) => (id === oldId ? newId : id)),
   };
 }
 

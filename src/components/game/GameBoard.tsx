@@ -60,13 +60,15 @@ export default function GameBoard({ isLocal }: Props) {
       let detail = "";
       if (ev.type === "card-drawn") {
         const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
-        detail = `${who} が ${ev.cardInstanceIds.length}枚 ドローした`;
+        const ids = (ev.cardInstanceIds ?? []) as string[];
+        detail = `${who} が ${ids.length}枚 ドローした`;
       } else if (ev.type === "library-top-revealed") {
         const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        const ids = (ev.cardInstanceIds ?? []) as string[];
         if (ev.private) {
-          detail = `${who} がトップ ${ev.cardInstanceIds.length} 枚を確認（非公開）`;
+          detail = `${who} がトップ ${ids.length} 枚を確認（非公開）`;
         } else {
-          const names = ev.cardInstanceIds.map((id) => gameState.cardInstances[id]?.name ?? id).join(", ");
+          const names = ids.map((id) => gameState.cardInstances[id]?.name ?? id).join(", ");
           detail = `${who} が公開: ${names}`;
         }
       } else if (ev.type === "library-shuffled") {
@@ -74,7 +76,8 @@ export default function GameBoard({ isLocal }: Props) {
         detail = `${who} がライブラリーをシャッフルした`;
       } else if (ev.type === "library-top-reordered") {
         const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
-        detail = `${who} が ${ev.cardInstanceIds.length}枚 トップに戻した`;
+        const ids = (ev.cardInstanceIds ?? []) as string[];
+        detail = `${who} が ${ids.length}枚 トップに戻した`;
       } else if (ev.type === "land-played") {
         const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
         const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
@@ -153,11 +156,11 @@ export default function GameBoard({ isLocal }: Props) {
   if (!gameState) return null;
 
   const { players, playerOrder, phase, priority, sharedLibrary, sharedGraveyard } = gameState;
-  const mulliganPending = gameState.mulliganPending;
+  const mulliganPending = gameState.mulliganPending ?? [];
 
   // ローカル対戦ではplayerIdsのどちらでも操作できる
   // WebRTC対戦ではopponentId = 相手
-  const gameStarted = sharedLibrary.cardInstanceIds.length > 0 || Object.values(gameState.hands).some(h => h.length > 0);
+  const gameStarted = sharedLibrary.cardInstanceIds.length > 0 || Object.values(gameState.hands).some(h => (h?.length ?? 0) > 0);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
@@ -321,14 +324,15 @@ export default function GameBoard({ isLocal }: Props) {
             let detail = "";
             if (ev.type === "card-drawn") {
               const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
-              const count = ev.cardInstanceIds.length;
-              detail = `${who} が ${count}枚 ドローした`;
+              const ids = (ev.cardInstanceIds ?? []) as string[];
+              detail = `${who} が ${ids.length}枚 ドローした`;
             } else if (ev.type === "library-top-revealed") {
               const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              const ids = (ev.cardInstanceIds ?? []) as string[];
               if (ev.private) {
-                detail = `${who} がトップ ${ev.cardInstanceIds.length} 枚を確認（非公開）`;
+                detail = `${who} がトップ ${ids.length} 枚を確認（非公開）`;
               } else {
-                const names = ev.cardInstanceIds
+                const names = ids
                   .map((id) => gameState.cardInstances[id]?.name ?? id)
                   .join(", ");
                 detail = `${who} が公開: ${names}`;
@@ -338,7 +342,8 @@ export default function GameBoard({ isLocal }: Props) {
               detail = `${who} がライブラリーをシャッフルした`;
             } else if (ev.type === "library-top-reordered") {
               const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
-              detail = `${who} が ${ev.cardInstanceIds.length}枚 トップに戻した`;
+              const ids = (ev.cardInstanceIds ?? []) as string[];
+              detail = `${who} が ${ids.length}枚 トップに戻した`;
             } else if (ev.type === "land-played") {
               const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
               const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
@@ -365,7 +370,8 @@ export default function GameBoard({ isLocal }: Props) {
               detail = `${cardName} が打ち消された → ${dest}`;
             } else if (ev.type === "mulligan-declared") {
               const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
-              const names = ev.returnedCardInstanceIds
+              const returnedIds = (ev.returnedCardInstanceIds ?? []) as string[];
+              const names = returnedIds
                 .map((id) => gameState.cardInstances[id]?.name ?? id)
                 .join(", ");
               detail = `${who} がマリガン: [${names}] を返した`;
