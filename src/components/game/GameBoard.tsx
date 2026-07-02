@@ -33,6 +33,7 @@ export default function GameBoard({ isLocal }: Props) {
   const sendCommand = useMatchStore((s) => s.sendCommand);
   const playerId = useMatchStore((s) => s.playerId);
   const opponentId = useMatchStore((s) => s.opponentId);
+  const role = useMatchStore((s) => s.role);
   const clearPersistedMatch = useMatchStore((s) => s.clearPersistedMatch);
   const navigate = useNavigate();
 
@@ -181,7 +182,12 @@ export default function GameBoard({ isLocal }: Props) {
 
         <div style={{ marginLeft: "auto", display: "flex", gap: "6px" }}>
           {!gameStarted && (
-            <button className="primary small" onClick={handleStartGame}>
+            <button
+              className="primary small"
+              onClick={handleStartGame}
+              disabled={!isLocal && role !== "host"}
+              title={!isLocal && role !== "host" ? "ホストのみ操作可能" : undefined}
+            >
               ゲーム開始
             </button>
           )}
