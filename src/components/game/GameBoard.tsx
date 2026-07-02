@@ -17,11 +17,12 @@ import { v4 as uuidv4 } from "uuid";
 import type { CardInstance } from "../../types/card";
 
 const PHASE_LABELS: Record<Phase, string> = {
-  beginning: "開始",
+  upkeep: "アップキープ",
+  draw: "ドロー",
   "precombat-main": "メイン1",
   combat: "戦闘",
   "postcombat-main": "メイン2",
-  ending: "終了",
+  ending: "エンド",
 };
 
 type Props = {
@@ -191,18 +192,6 @@ export default function GameBoard({ isLocal }: Props) {
               ゲーム開始
             </button>
           )}
-          <button className="secondary small" onClick={() => setShowGraveyard(true)}>
-            墓地 ({sharedGraveyard.cardInstanceIds.length})
-          </button>
-          <button className="secondary small" onClick={() => setShowExile(true)}>
-            追放 ({gameState.exile.length})
-          </button>
-          <button className="secondary small" onClick={() => setShowLibraryTop(true)}>
-            ライブラリー操作
-          </button>
-          <button className="secondary small" onClick={() => sendCommand({ type: "draw-card", playerId, count: 1 })}>
-            ドロー
-          </button>
           <button className="secondary small" onClick={() => setShowEventLog(!showEventLog)}>
             ログ
           </button>
@@ -270,11 +259,29 @@ export default function GameBoard({ isLocal }: Props) {
           )
         )}
 
-        {/* スタック & 優先権 */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-          <StackView />
-          <PriorityControl isLocal={isLocal} />
+        {/* スタック + アクションボタン */}
+        <div style={{ display: "flex", gap: "8px", alignItems: "stretch" }}>
+          <div style={{ flex: 1, minWidth: 0, height: "100%" }}>
+            <StackView />
+          </div>
+          <div className="panel" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px", flexShrink: 0, alignContent: "start" }}>
+            <button className="secondary small" onClick={() => setShowGraveyard(true)}>
+              墓地 ({sharedGraveyard.cardInstanceIds.length})
+            </button>
+            <button className="secondary small" onClick={() => setShowExile(true)}>
+              追放 ({gameState.exile.length})
+            </button>
+            <button className="secondary small" onClick={() => setShowLibraryTop(true)}>
+              ライブラリー操作
+            </button>
+            <button className="secondary small" onClick={() => sendCommand({ type: "draw-card", playerId, count: 1 })}>
+              ドロー
+            </button>
+          </div>
         </div>
+
+        {/* フェイズ / ターン / 優先権バー — スタックと自分の戦場の間 */}
+        <PriorityControl isLocal={isLocal} />
 
         {/* 自分のエリア */}
         {(() => {

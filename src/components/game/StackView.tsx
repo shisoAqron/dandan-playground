@@ -19,7 +19,7 @@ export default function StackView() {
   };
 
   return (
-    <div className="panel">
+    <div className="panel" style={{ height: "100%" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
         <div className="zone-label">スタック ({stackItems.length}枚)</div>
         {stackItems.length > 0 && (

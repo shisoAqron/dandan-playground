@@ -12,7 +12,8 @@ export type ZonePosition =
   | { index: number };
 
 export type Phase =
-  | "beginning"
+  | "upkeep"
+  | "draw"
   | "precombat-main"
   | "combat"
   | "postcombat-main"

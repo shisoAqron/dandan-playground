@@ -41,6 +41,22 @@ button:active {
   transform: scale(0.97);
 }
 
+button:disabled {
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+button:disabled:active {
+  transform: none;
+}
+
+button:disabled:hover {
+  background: var(--bg-card);
+}
+
 button.primary {
   background: var(--accent);
   color: #fff;

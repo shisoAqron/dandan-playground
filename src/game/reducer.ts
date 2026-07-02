@@ -454,7 +454,7 @@ export function applyGameEvent(state: GameState, event: GameEvent): GameState {
         ...state,
         turnPlayerId: nextPlayer,
         activePlayerId: nextPlayer,
-        phase: "beginning",
+        phase: "upkeep",
         priority: {
           holderPlayerId: nextPlayer,
           consecutivePasses: 0,

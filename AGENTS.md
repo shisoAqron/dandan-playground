@@ -677,7 +677,8 @@ MVPでは、フェイズを厳密に自動管理しない。
 
 ```ts
 export type Phase =
-  | "beginning"
+  | "upkeep"
+  | "draw"
   | "precombat-main"
   | "combat"
   | "postcombat-main"
