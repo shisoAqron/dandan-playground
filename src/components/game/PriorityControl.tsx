@@ -96,7 +96,7 @@ export default function PriorityControl() {
                 {PHASE_LABELS[p]}
               </button>
             ))}
-            <button className="danger small" onClick={handleEndTurn}>
+            <button className="danger small" onClick={handleEndTurn} disabled={playerId !== turnPlayerId}>
               ターン終了
             </button>
           </div>

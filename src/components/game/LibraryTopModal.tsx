@@ -70,6 +70,22 @@ export default function LibraryTopModal({ onClose }: { onClose: () => void }) {
           <button className="secondary" onClick={handleReorderMode}>
             並び替え
           </button>
+          <button className="secondary" onClick={() => {
+            const targets = libraryIds.slice(0, revealCount);
+            for (const id of targets) {
+              sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "shared-graveyard" });
+            }
+          }}>
+            墓地へ
+          </button>
+          <button className="secondary" onClick={() => {
+            const targets = libraryIds.slice(0, revealCount);
+            for (const id of targets) {
+              sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "exile" });
+            }
+          }}>
+            追放
+          </button>
         </div>
 
         {mode === "reveal" && revealedInstances.length > 0 && (
@@ -108,46 +124,34 @@ export default function LibraryTopModal({ onClose }: { onClose: () => void }) {
         {mode === "reorder" && (
           <div>
             <p style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "8px" }}>
-              並び替え（上がトップ）:
+              並び替え（左がトップ）:
             </p>
-            {reorderIds.map((id, i) => {
-              const inst = gameState.cardInstances[id];
-              if (!inst) return null;
-              return (
-                <div key={id} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px", padding: "6px", background: "var(--bg-card)", borderRadius: "6px" }}>
-                  <span style={{ fontSize: "12px", color: "var(--text-muted)", width: "20px", flexShrink: 0 }}>
-                    {i === 0 ? "Top" : `+${i}`}
-                  </span>
-                  <span style={{ flex: 1, fontSize: "13px" }}>{inst.name}</span>
-                  <button className="secondary small" onClick={() => moveInReorder(i, -1)} disabled={i === 0}>↑</button>
-                  <button className="secondary small" onClick={() => moveInReorder(i, 1)} disabled={i === reorderIds.length - 1}>↓</button>
-                  <button className="secondary small" onClick={() => {
-                    sendCommand({
-                      type: "move-card",
-                      playerId,
-                      cardInstanceId: id,
-                      from: "shared-library",
-                      to: "hand",
-                    });
-                    setReorderIds(reorderIds.filter(x => x !== id));
-                  }}>
-                    手札へ
-                  </button>
-                  <button className="secondary small" onClick={() => {
-                    sendCommand({
-                      type: "move-card",
-                      playerId,
-                      cardInstanceId: id,
-                      from: "shared-library",
-                      to: "shared-graveyard",
-                    });
-                    setReorderIds(reorderIds.filter(x => x !== id));
-                  }}>
-                    墓地へ
-                  </button>
-                </div>
-              );
-            })}
+            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+              {reorderIds.map((id, i) => {
+                const inst = gameState.cardInstances[id];
+                if (!inst) return null;
+                return (
+                  <div key={id} style={{ textAlign: "center" }}>
+                    <div style={{ fontSize: "10px", color: "var(--text-muted)", marginBottom: "2px" }}>
+                      {i === 0 ? "トップ" : `+${i}`}
+                    </div>
+                    <CardView instance={inst} size="sm" />
+                    <div style={{ display: "flex", gap: "2px", marginTop: "2px" }}>
+                      <button className="secondary small" onClick={() => moveInReorder(i, -1)} disabled={i === 0} style={{ flex: 1 }}>←</button>
+                      <button className="secondary small" onClick={() => moveInReorder(i, 1)} disabled={i === reorderIds.length - 1} style={{ flex: 1 }}>→</button>
+                    </div>
+                    <button className="secondary small" style={{ width: "100%", marginTop: "2px" }} onClick={() => {
+                      sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "hand" });
+                      setReorderIds(reorderIds.filter(x => x !== id));
+                    }}>手札へ</button>
+                    <button className="secondary small" style={{ width: "100%", marginTop: "2px" }} onClick={() => {
+                      sendCommand({ type: "move-card", playerId, cardInstanceId: id, from: "shared-library", to: "shared-graveyard" });
+                      setReorderIds(reorderIds.filter(x => x !== id));
+                    }}>墓地へ</button>
+                  </div>
+                );
+              })}
+            </div>
             <button className="primary" style={{ width: "100%", marginTop: "8px" }} onClick={handleConfirmReorder}>
               この順番で確定
             </button>
