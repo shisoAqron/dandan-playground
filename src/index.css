@@ -11,6 +11,9 @@
   --success: #44ff88;
   --warning: #ffcc44;
   --priority: #ffd700;
+  /* 背景画像の調整 */
+  --bg-image-opacity: 0.25;
+  --bg-image-brightness: 1.0;
 }
 
 * {
@@ -282,3 +285,16 @@ input:focus, textarea:focus {
 .badge.disconnected { background: #4a1a1a; color: var(--danger); }
 .badge.connecting { background: #2a3a1a; color: var(--warning); }
 .badge.idle { background: #2a2a2a; color: var(--text-muted); }
+
+/* 背景画像レイヤー */
+.bg-image-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: var(--bg-image-opacity);
+  filter: brightness(var(--bg-image-brightness));
+}

@@ -7,12 +7,15 @@ import LocalGamePage from "./pages/LocalGamePage";
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<TopPage />} />
-      <Route path="/create" element={<CreatePage />} />
-      <Route path="/join" element={<JoinPage />} />
-      <Route path="/game" element={<GamePage />} />
-      <Route path="/local" element={<LocalGamePage />} />
-    </Routes>
+    <>
+      <div className="bg-image-layer" style={{ backgroundImage: `url('${import.meta.env.BASE_URL}background.png')` }} />
+      <Routes>
+        <Route path="/" element={<TopPage />} />
+        <Route path="/create" element={<CreatePage />} />
+        <Route path="/join" element={<JoinPage />} />
+        <Route path="/game" element={<GamePage />} />
+        <Route path="/local" element={<LocalGamePage />} />
+      </Routes>
+    </>
   );
 }
