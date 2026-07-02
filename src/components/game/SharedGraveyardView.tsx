@@ -6,6 +6,7 @@ import type { CardInstance } from "../../types/card";
 
 export default function SharedGraveyardView({ onClose }: { onClose: () => void }) {
   const gameState = useMatchStore((s) => s.gameState);
+  const sendCommand = useMatchStore((s) => s.sendCommand);
   const playerId = useMatchStore((s) => s.playerId);
   const [selectedInstance, setSelectedInstance] = useState<CardInstance | null>(null);
 
@@ -22,7 +23,23 @@ export default function SharedGraveyardView({ onClose }: { onClose: () => void }
     <>
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "700px" }}>
-        <h2>共有墓地 ({instances.length}枚)</h2>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px", flexWrap: "wrap" }}>
+          <h2 style={{ margin: 0 }}>共有墓地 ({instances.length}枚)</h2>
+          {instances.length > 0 && (
+            <>
+              <button className="secondary small" onClick={() => {
+                for (const inst of instances) {
+                  sendCommand({ type: "move-card", playerId, cardInstanceId: inst.instanceId, from: "shared-graveyard", to: "exile" });
+                }
+              }}>一括追放</button>
+              <button className="secondary small" onClick={() => {
+                for (const inst of instances) {
+                  sendCommand({ type: "move-card", playerId, cardInstanceId: inst.instanceId, from: "shared-graveyard", to: "shared-library", position: "bottom" });
+                }
+              }}>一括ライブラリーボトムへ</button>
+            </>
+          )}
+        </div>
         {akCount > 0 && (
           <p style={{ color: "var(--accent)", fontSize: "13px", marginBottom: "12px" }}>
             💧 Accumulated Knowledge: 墓地に{akCount}枚 → {akCount + 1}枚ドロー

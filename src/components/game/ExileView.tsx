@@ -6,6 +6,7 @@ import type { CardInstance } from "../../types/card";
 
 export default function ExileView({ onClose }: { onClose: () => void }) {
   const gameState = useMatchStore((s) => s.gameState);
+  const sendCommand = useMatchStore((s) => s.sendCommand);
   const playerId = useMatchStore((s) => s.playerId);
   const [selectedInstance, setSelectedInstance] = useState<CardInstance | null>(null);
 
@@ -19,7 +20,16 @@ export default function ExileView({ onClose }: { onClose: () => void }) {
     <>
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "700px" }}>
-          <h2>追放ゾーン ({instances.length}枚)</h2>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px", flexWrap: "wrap" }}>
+            <h2 style={{ margin: 0 }}>追放ゾーン ({instances.length}枚)</h2>
+            {instances.length > 0 && (
+              <button className="secondary small" onClick={() => {
+                for (const inst of instances) {
+                  sendCommand({ type: "move-card", playerId, cardInstanceId: inst.instanceId, from: "exile", to: "shared-library", position: "bottom" });
+                }
+              }}>一括ライブラリーボトムへ</button>
+            )}
+          </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", maxHeight: "60vh", overflowY: "auto" }}>
             {instances.length === 0 && (
               <p style={{ color: "var(--text-muted)" }}>追放されたカードはありません</p>

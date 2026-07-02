@@ -10,7 +10,7 @@ import StackView from "./StackView";
 import PriorityControl from "./PriorityControl";
 import SharedGraveyardView from "./SharedGraveyardView";
 import ExileView from "./ExileView";
-import LibraryTopModal from "./LibraryTopModal";
+import LibraryModal from "./LibraryModal";
 import type { Phase } from "../../types/game";
 import { v4 as uuidv4 } from "uuid";
 import type { CardInstance } from "../../types/card";
@@ -147,10 +147,10 @@ export default function GameBoard({ isLocal }: Props) {
                   hasPriority={priority.holderPlayerId === p2id}
                 />
                 <div style={{ marginTop: "6px" }}>
-                  <BattlefieldView playerId={p2id} label={`${p2.displayName}の戦場`} />
+                  <HandView playerId={p2id} isOpponent={false} />
                 </div>
                 <div style={{ marginTop: "6px" }}>
-                  <HandView playerId={p2id} isOpponent={false} />
+                  <BattlefieldView playerId={p2id} label={`${p2.displayName}の戦場`} />
                 </div>
               </div>
             );
@@ -167,10 +167,10 @@ export default function GameBoard({ isLocal }: Props) {
                 hasPriority={priority.holderPlayerId === opponentId}
               />
               <div style={{ marginTop: "6px" }}>
-                <BattlefieldView playerId={opponentId} label="相手の戦場" />
+                <HandView playerId={opponentId} isOpponent={true} />
               </div>
               <div style={{ marginTop: "6px" }}>
-                <HandView playerId={opponentId} isOpponent={true} />
+                <BattlefieldView playerId={opponentId} label="相手の戦場" />
               </div>
             </div>
           )
@@ -211,7 +211,7 @@ export default function GameBoard({ isLocal }: Props) {
       {/* モーダル */}
       {showGraveyard && <SharedGraveyardView onClose={() => setShowGraveyard(false)} />}
       {showExile && <ExileView onClose={() => setShowExile(false)} />}
-      {showLibraryTop && <LibraryTopModal onClose={() => setShowLibraryTop(false)} />}
+      {showLibraryTop && <LibraryModal onClose={() => setShowLibraryTop(false)} />}
 
       {/* イベントログ */}
       {showEventLog && (
