@@ -1,0 +1,546 @@
+[
+  {
+    "id": "212e84a3-e028-42a6-a639-f42b64ab7015",
+    "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
+    "name": "Island",
+    "printedName": "島",
+    "manaCost": "",
+    "cmc": 0,
+    "typeLine": "Basic Land — Island",
+    "oracleText": "({T}: Add {U}.)",
+    "colors": [],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/2/1/212e84a3-e028-42a6-a639-f42b64ab7015.jpg?1782723395",
+      "normal": "https://cards.scryfall.io/normal/front/2/1/212e84a3-e028-42a6-a639-f42b64ab7015.jpg?1782723395",
+      "large": "https://cards.scryfall.io/large/front/2/1/212e84a3-e028-42a6-a639-f42b64ab7015.jpg?1782723395",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/2/1/212e84a3-e028-42a6-a639-f42b64ab7015.jpg?1782723395"
+    }
+  },
+  {
+    "id": "a2104c94-4d28-42a8-a620-0cb3aa83eff1",
+    "oracleId": "88929373-b2c8-4a81-a809-fed87fd5b0d7",
+    "name": "Dandân",
+    "printedName": "ダンダーン",
+    "manaCost": "{U}{U}",
+    "cmc": 2,
+    "typeLine": "Creature — Fish",
+    "printedTypeLine": "クリーチャー — 魚",
+    "oracleText": "This creature can't attack unless defending player controls an Island.\nWhen you control no Islands, sacrifice this creature.",
+    "printedText": "ダンダーンは、防御側プレイヤーが島をコントロールしていないかぎり、攻撃に参加できない。\nあなたが島をコントロールしていないとき、ダンダーンを生け贄に捧げる。",
+    "power": "4",
+    "toughness": "1",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/a/2/a2104c94-4d28-42a8-a620-0cb3aa83eff1.jpg?1782724142",
+      "normal": "https://cards.scryfall.io/normal/front/a/2/a2104c94-4d28-42a8-a620-0cb3aa83eff1.jpg?1782724142",
+      "large": "https://cards.scryfall.io/large/front/a/2/a2104c94-4d28-42a8-a620-0cb3aa83eff1.jpg?1782724142",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/a/2/a2104c94-4d28-42a8-a620-0cb3aa83eff1.jpg?1782724142"
+    }
+  },
+  {
+    "id": "fc2215c0-2d08-42ab-be24-3f03bfdd9cdb",
+    "oracleId": "bbfb3e4a-b389-4391-8141-13b68c0ef2e0",
+    "name": "Memory Lapse",
+    "printedName": "記憶の欠落",
+    "manaCost": "{1}{U}",
+    "cmc": 2,
+    "typeLine": "Instant",
+    "printedTypeLine": "インスタント",
+    "oracleText": "Counter target spell. If that spell is countered this way, put it on top of its owner's library instead of into that player's graveyard.",
+    "printedText": "呪文１つを対象とする。それを打ち消す。その呪文がこれにより打ち消されたなら、それをオーナーの墓地に置く代わりにオーナーのライブラリーの一番上に置く。",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/f/c/fc2215c0-2d08-42ab-be24-3f03bfdd9cdb.jpg?1782724138",
+      "normal": "https://cards.scryfall.io/normal/front/f/c/fc2215c0-2d08-42ab-be24-3f03bfdd9cdb.jpg?1782724138",
+      "large": "https://cards.scryfall.io/large/front/f/c/fc2215c0-2d08-42ab-be24-3f03bfdd9cdb.jpg?1782724138",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/f/c/fc2215c0-2d08-42ab-be24-3f03bfdd9cdb.jpg?1782724138"
+    }
+  },
+  {
+    "id": "3055dcc6-8235-4e95-922e-8b1da2fd544f",
+    "oracleId": "1ca25379-d194-4670-a7bf-525ad11cf436",
+    "name": "Accumulated Knowledge",
+    "printedName": "蓄積した知識",
+    "manaCost": "{1}{U}",
+    "cmc": 2,
+    "typeLine": "Instant",
+    "printedTypeLine": "インスタント",
+    "oracleText": "Draw a card, then draw cards equal to the number of cards named Accumulated Knowledge in all graveyards.",
+    "printedText": "カードを１枚引き、その後、すべての墓地にある「蓄積した知識」という名前のカードの総数に等しい枚数のカードを引く。",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/3/0/3055dcc6-8235-4e95-922e-8b1da2fd544f.jpg?1782724140",
+      "normal": "https://cards.scryfall.io/normal/front/3/0/3055dcc6-8235-4e95-922e-8b1da2fd544f.jpg?1782724140",
+      "large": "https://cards.scryfall.io/large/front/3/0/3055dcc6-8235-4e95-922e-8b1da2fd544f.jpg?1782724140",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/3/0/3055dcc6-8235-4e95-922e-8b1da2fd544f.jpg?1782724140"
+    }
+  },
+  {
+    "id": "9a12c7be-5001-4e4b-81d5-cbb76fd3c9d0",
+    "oracleId": "cba229fa-9035-405b-b091-3798898a37ee",
+    "name": "Magical Hack",
+    "printedName": "魔法改竄",
+    "manaCost": "{U}",
+    "cmc": 1,
+    "typeLine": "Instant",
+    "oracleText": "Change the text of target spell or permanent by replacing all instances of one basic land type with another. (For example, you may change \"swampwalk\" to \"plainswalk.\" This effect lasts indefinitely.)",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/9/a/9a12c7be-5001-4e4b-81d5-cbb76fd3c9d0.jpg?1782724140",
+      "normal": "https://cards.scryfall.io/normal/front/9/a/9a12c7be-5001-4e4b-81d5-cbb76fd3c9d0.jpg?1782724140",
+      "large": "https://cards.scryfall.io/large/front/9/a/9a12c7be-5001-4e4b-81d5-cbb76fd3c9d0.jpg?1782724140",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/9/a/9a12c7be-5001-4e4b-81d5-cbb76fd3c9d0.jpg?1782724140"
+    }
+  },
+  {
+    "id": "285b5f42-17e2-4036-a309-8abd393c6263",
+    "oracleId": "17b60106-a4c7-410a-8ac3-ec8e74e29a7c",
+    "name": "Mystic Sanctuary",
+    "printedName": "神秘の聖域",
+    "manaCost": "",
+    "cmc": 0,
+    "typeLine": "Land — Island",
+    "printedTypeLine": "土地 — 島",
+    "oracleText": "({T}: Add {U}.)\nThis land enters tapped unless you control three or more other Islands.\nWhen this land enters untapped, you may put target instant or sorcery card from your graveyard on top of your library.",
+    "printedText": "（{T}：{U}を加える。）\nあなたがこれでない３つ以上の島をコントロールしていないかぎり、神秘の聖域はタップ状態で戦場に出る。\n神秘の聖域がアンタップ状態で戦場に出たとき、あなたの墓地にありインスタントやソーサリーであるカード１枚を対象とする。あなたはそれをあなたのライブラリーの一番上に置いてもよい。",
+    "colors": [],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/2/8/285b5f42-17e2-4036-a309-8abd393c6263.jpg?1782724137",
+      "normal": "https://cards.scryfall.io/normal/front/2/8/285b5f42-17e2-4036-a309-8abd393c6263.jpg?1782724137",
+      "large": "https://cards.scryfall.io/large/front/2/8/285b5f42-17e2-4036-a309-8abd393c6263.jpg?1782724137",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/2/8/285b5f42-17e2-4036-a309-8abd393c6263.jpg?1782724137"
+    }
+  },
+  {
+    "id": "6b8f867d-eff5-493f-a881-bcbc4ae06b33",
+    "oracleId": "36cd2364-d113-47d1-b2c4-b088d9eb88dd",
+    "name": "Brainstorm",
+    "printedName": "渦まく知識",
+    "manaCost": "{U}",
+    "cmc": 1,
+    "typeLine": "Instant",
+    "oracleText": "Draw three cards, then put two cards from your hand on top of your library in any order.",
+    "printedText": "カード３枚を引く。その後、あなたの手札にあるカード２枚をあなたのライブラリーの一番上に望む順番で置く。",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/6/b/6b8f867d-eff5-493f-a881-bcbc4ae06b33.jpg?1782723879",
+      "normal": "https://cards.scryfall.io/normal/front/6/b/6b8f867d-eff5-493f-a881-bcbc4ae06b33.jpg?1782723879",
+      "large": "https://cards.scryfall.io/large/front/6/b/6b8f867d-eff5-493f-a881-bcbc4ae06b33.jpg?1782723879",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/6/b/6b8f867d-eff5-493f-a881-bcbc4ae06b33.jpg?1782723879"
+    }
+  },
+  {
+    "id": "189027a8-76e8-449c-973a-6b7eae8eb3b1",
+    "oracleId": "89aa65d9-2502-40b0-90b6-b25a8e9f6155",
+    "name": "Capture of Jingzhou",
+    "printedName": "荊州占拠",
+    "manaCost": "{3}{U}{U}",
+    "cmc": 5,
+    "typeLine": "Sorcery",
+    "printedTypeLine": "ソーサリー",
+    "oracleText": "Take an extra turn after this one.",
+    "printedText": "あなたは、このターンに続いて追加の１ターンを行う。",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/1/8/189027a8-76e8-449c-973a-6b7eae8eb3b1.jpg?1782724134",
+      "normal": "https://cards.scryfall.io/normal/front/1/8/189027a8-76e8-449c-973a-6b7eae8eb3b1.jpg?1782724134",
+      "large": "https://cards.scryfall.io/large/front/1/8/189027a8-76e8-449c-973a-6b7eae8eb3b1.jpg?1782724134",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/1/8/189027a8-76e8-449c-973a-6b7eae8eb3b1.jpg?1782724134"
+    }
+  },
+  {
+    "id": "4685fb39-e6cb-4c0a-9398-8eba6f2f4010",
+    "oracleId": "05878e49-93ad-4144-9c50-a0bb86126c2e",
+    "name": "Chart a Course",
+    "printedName": "航路の作成",
+    "manaCost": "{1}{U}",
+    "cmc": 2,
+    "typeLine": "Sorcery",
+    "printedTypeLine": "ソーサリー",
+    "oracleText": "Draw two cards. Then discard a card unless you attacked this turn.",
+    "printedText": "カード２枚を引く。その後、このターンにあなたが攻撃していなかったなら、カード１枚を捨てる。",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/4/6/4685fb39-e6cb-4c0a-9398-8eba6f2f4010.jpg?1782724133",
+      "normal": "https://cards.scryfall.io/normal/front/4/6/4685fb39-e6cb-4c0a-9398-8eba6f2f4010.jpg?1782724133",
+      "large": "https://cards.scryfall.io/large/front/4/6/4685fb39-e6cb-4c0a-9398-8eba6f2f4010.jpg?1782724133",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/4/6/4685fb39-e6cb-4c0a-9398-8eba6f2f4010.jpg?1782724133"
+    }
+  },
+  {
+    "id": "ca43856b-9de8-430a-9a7b-04a33025bf44",
+    "oracleId": "cd0d7141-46d2-4aa3-bc77-6b3b4513803e",
+    "name": "Control Magic",
+    "printedName": "支配魔法",
+    "manaCost": "{2}{U}{U}",
+    "cmc": 4,
+    "typeLine": "Enchantment — Aura",
+    "oracleText": "Enchant creature\nYou control enchanted creature.",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/c/a/ca43856b-9de8-430a-9a7b-04a33025bf44.jpg?1782724133",
+      "normal": "https://cards.scryfall.io/normal/front/c/a/ca43856b-9de8-430a-9a7b-04a33025bf44.jpg?1782724133",
+      "large": "https://cards.scryfall.io/large/front/c/a/ca43856b-9de8-430a-9a7b-04a33025bf44.jpg?1782724133",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/c/a/ca43856b-9de8-430a-9a7b-04a33025bf44.jpg?1782724133"
+    }
+  },
+  {
+    "id": "4c627b94-aebc-457b-bf3f-c779fddf03eb",
+    "oracleId": "fe371e3a-976f-41d8-ad58-4b3b61415d71",
+    "name": "Crystal Spray",
+    "printedName": "水晶のしぶき",
+    "manaCost": "{2}{U}",
+    "cmc": 3,
+    "typeLine": "Instant",
+    "oracleText": "Change the text of target spell or permanent by replacing all instances of one color word with another or one basic land type with another until end of turn.\nDraw a card.",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/4/c/4c627b94-aebc-457b-bf3f-c779fddf03eb.jpg?1782724133",
+      "normal": "https://cards.scryfall.io/normal/front/4/c/4c627b94-aebc-457b-bf3f-c779fddf03eb.jpg?1782724133",
+      "large": "https://cards.scryfall.io/large/front/4/c/4c627b94-aebc-457b-bf3f-c779fddf03eb.jpg?1782724133",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/4/c/4c627b94-aebc-457b-bf3f-c779fddf03eb.jpg?1782724133"
+    }
+  },
+  {
+    "id": "20996b6b-28dc-4b15-8a52-48cc90218174",
+    "oracleId": "810a6cf5-e9f4-48e1-8e06-3e0af85633ce",
+    "name": "Day's Undoing",
+    "printedName": "一日のやり直し",
+    "manaCost": "{2}{U}",
+    "cmc": 3,
+    "typeLine": "Sorcery",
+    "printedTypeLine": "ソーサリー",
+    "oracleText": "Each player shuffles their hand and graveyard into their library, then draws seven cards. If it's your turn, end the turn. (Exile all spells and abilities from the stack, including this card. Discard down to your maximum hand size. Damage wears off, and \"this turn\" and \"until end of turn\" effects end.)",
+    "printedText": "各プレイヤーはそれぞれ、自分の手札と墓地を自分のライブラリーに加えて切り直し、その後、カード７枚を引く。あなたのターンであるなら、ターンを終了する。（このカードを含め、スタックにあるすべての呪文や能力を追放する。自分の手札の上限までカードを捨てる。ダメージは消え、「このターン」と「ターン終了時まで」の効果は終わる。）",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/2/0/20996b6b-28dc-4b15-8a52-48cc90218174.jpg?1782724132",
+      "normal": "https://cards.scryfall.io/normal/front/2/0/20996b6b-28dc-4b15-8a52-48cc90218174.jpg?1782724132",
+      "large": "https://cards.scryfall.io/large/front/2/0/20996b6b-28dc-4b15-8a52-48cc90218174.jpg?1782724132",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/2/0/20996b6b-28dc-4b15-8a52-48cc90218174.jpg?1782724132"
+    }
+  },
+  {
+    "id": "b2cfc2e0-cd76-4678-a29c-4e5e3d14cd3c",
+    "oracleId": "e8d5f31c-7abf-4fbb-977e-8353a97daf7a",
+    "name": "Mental Note",
+    "printedName": "留意",
+    "manaCost": "{U}",
+    "cmc": 1,
+    "typeLine": "Instant",
+    "oracleText": "Mill two cards.\nDraw a card.",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/b/2/b2cfc2e0-cd76-4678-a29c-4e5e3d14cd3c.jpg?1782724130",
+      "normal": "https://cards.scryfall.io/normal/front/b/2/b2cfc2e0-cd76-4678-a29c-4e5e3d14cd3c.jpg?1782724130",
+      "large": "https://cards.scryfall.io/large/front/b/2/b2cfc2e0-cd76-4678-a29c-4e5e3d14cd3c.jpg?1782724130",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/b/2/b2cfc2e0-cd76-4678-a29c-4e5e3d14cd3c.jpg?1782724130"
+    }
+  },
+  {
+    "id": "7815cac4-3718-4a64-b1dc-bface4264c8f",
+    "oracleId": "77d6c141-5670-4120-9346-dc2fdcb66e50",
+    "name": "Metamorphose",
+    "printedName": "変態",
+    "manaCost": "{1}{U}",
+    "cmc": 2,
+    "typeLine": "Instant",
+    "oracleText": "Put target permanent an opponent controls on top of its owner's library. That opponent may put an artifact, creature, enchantment, or land card from their hand onto the battlefield.",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/7/8/7815cac4-3718-4a64-b1dc-bface4264c8f.jpg?1782724130",
+      "normal": "https://cards.scryfall.io/normal/front/7/8/7815cac4-3718-4a64-b1dc-bface4264c8f.jpg?1782724130",
+      "large": "https://cards.scryfall.io/large/front/7/8/7815cac4-3718-4a64-b1dc-bface4264c8f.jpg?1782724130",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/7/8/7815cac4-3718-4a64-b1dc-bface4264c8f.jpg?1782724130"
+    }
+  },
+  {
+    "id": "a8c1b429-1191-4bd3-bf51-1a890cbab825",
+    "oracleId": "72a7faa0-cb0c-4841-84f3-e340b19fe045",
+    "name": "Predict",
+    "printedName": "予報",
+    "manaCost": "{1}{U}",
+    "cmc": 2,
+    "typeLine": "Instant",
+    "printedTypeLine": "インスタント",
+    "oracleText": "Choose a card name, then target player mills a card. If a card with the chosen name was milled this way, you draw two cards. Otherwise, you draw a card.",
+    "printedText": "プレイヤー１人を対象とする。カード名１つを選ぶ。その後、そのプレイヤーは自分のライブラリーの一番上のカードを自分の墓地に置く。そのカードがその選ばれた名前を持っているなら、あなたはカードを２枚引く。そうでないなら、カードを１枚引く。",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/a/8/a8c1b429-1191-4bd3-bf51-1a890cbab825.jpg?1782724129",
+      "normal": "https://cards.scryfall.io/normal/front/a/8/a8c1b429-1191-4bd3-bf51-1a890cbab825.jpg?1782724129",
+      "large": "https://cards.scryfall.io/large/front/a/8/a8c1b429-1191-4bd3-bf51-1a890cbab825.jpg?1782724129",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/a/8/a8c1b429-1191-4bd3-bf51-1a890cbab825.jpg?1782724129"
+    }
+  },
+  {
+    "id": "6c47bcb9-69a2-40ac-bb8f-2b3c808096d9",
+    "oracleId": "192f3c8a-1120-4f7f-ae0f-fe9bde59cd08",
+    "name": "Telling Time",
+    "printedName": "時間の把握",
+    "manaCost": "{1}{U}",
+    "cmc": 2,
+    "typeLine": "Instant",
+    "printedTypeLine": "インスタント",
+    "oracleText": "Look at the top three cards of your library. Put one of those cards into your hand, one on top of your library, and one on the bottom of your library.",
+    "printedText": "あなたのライブラリーの一番上にあるカード３枚を見る。そのうち１枚をあなたの手札に、１枚をあなたのライブラリーの一番上に、１枚をあなたのライブラリーの１番下に置く。",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/6/c/6c47bcb9-69a2-40ac-bb8f-2b3c808096d9.jpg?1782724128",
+      "normal": "https://cards.scryfall.io/normal/front/6/c/6c47bcb9-69a2-40ac-bb8f-2b3c808096d9.jpg?1782724128",
+      "large": "https://cards.scryfall.io/large/front/6/c/6c47bcb9-69a2-40ac-bb8f-2b3c808096d9.jpg?1782724128",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/6/c/6c47bcb9-69a2-40ac-bb8f-2b3c808096d9.jpg?1782724128"
+    }
+  },
+  {
+    "id": "ceb1f93d-b628-40a2-9552-09a14cc84c32",
+    "oracleId": "c387f46f-ad91-4964-8dc6-acefe537fe3c",
+    "name": "Unsubstantiate",
+    "printedName": "非実体化",
+    "manaCost": "{1}{U}",
+    "cmc": 2,
+    "typeLine": "Instant",
+    "printedTypeLine": "インスタント",
+    "oracleText": "Return target spell or creature to its owner's hand.",
+    "printedText": "呪文１つかクリーチャー１体を対象とし、それをオーナーの手札に戻す。",
+    "colors": [
+      "U"
+    ],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/c/e/ceb1f93d-b628-40a2-9552-09a14cc84c32.jpg?1782724127",
+      "normal": "https://cards.scryfall.io/normal/front/c/e/ceb1f93d-b628-40a2-9552-09a14cc84c32.jpg?1782724127",
+      "large": "https://cards.scryfall.io/large/front/c/e/ceb1f93d-b628-40a2-9552-09a14cc84c32.jpg?1782724127",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/c/e/ceb1f93d-b628-40a2-9552-09a14cc84c32.jpg?1782724127"
+    }
+  },
+  {
+    "id": "638e752c-fcfc-4277-ab93-943d0195e351",
+    "oracleId": "42d121a2-5266-483a-ab16-e0a8073cd6a3",
+    "name": "Halimar Depths",
+    "printedName": "ハリマーの深み",
+    "manaCost": "",
+    "cmc": 0,
+    "typeLine": "Land",
+    "printedTypeLine": "土地",
+    "oracleText": "This land enters tapped.\nWhen this land enters, look at the top three cards of your library, then put them back in any order.\n{T}: Add {U}.",
+    "printedText": "ハリマーの深みはタップ状態で戦場に出る。\nハリマーの深みが戦場に出たとき、あなたのライブラリーの一番上にあるカード３枚を見る。その後、それらを望む順番で戻す。\n{T}：{U}を加える。",
+    "colors": [],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/6/3/638e752c-fcfc-4277-ab93-943d0195e351.jpg?1782724127",
+      "normal": "https://cards.scryfall.io/normal/front/6/3/638e752c-fcfc-4277-ab93-943d0195e351.jpg?1782724127",
+      "large": "https://cards.scryfall.io/large/front/6/3/638e752c-fcfc-4277-ab93-943d0195e351.jpg?1782724127",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/6/3/638e752c-fcfc-4277-ab93-943d0195e351.jpg?1782724127"
+    }
+  },
+  {
+    "id": "60642c42-15f7-4e22-80ad-4eed3a14b624",
+    "oracleId": "7c6143f3-ad2c-4d7f-9041-aa59f01d8fb7",
+    "name": "Haunted Fengraf",
+    "printedName": "憑依された沼墓",
+    "manaCost": "",
+    "cmc": 0,
+    "typeLine": "Land",
+    "printedTypeLine": "土地",
+    "oracleText": "{T}: Add {C}.\n{3}, {T}, Sacrifice this land: Return a creature card at random from your graveyard to your hand.",
+    "printedText": "{T}：{C}を加える。\n{3}, {T}, 憑依された沼墓を生け贄に捧げる：あなたの墓地からクリーチャー・カード１枚を無作為に選んであなたの手札に戻す。",
+    "colors": [],
+    "colorIdentity": [],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/6/0/60642c42-15f7-4e22-80ad-4eed3a14b624.jpg?1782724126",
+      "normal": "https://cards.scryfall.io/normal/front/6/0/60642c42-15f7-4e22-80ad-4eed3a14b624.jpg?1782724126",
+      "large": "https://cards.scryfall.io/large/front/6/0/60642c42-15f7-4e22-80ad-4eed3a14b624.jpg?1782724126",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/6/0/60642c42-15f7-4e22-80ad-4eed3a14b624.jpg?1782724126"
+    }
+  },
+  {
+    "id": "001908da-70cc-4a53-9372-eb75c0721442",
+    "oracleId": "765863c8-1be0-4bb1-9e9c-db7701cffde3",
+    "name": "Lonely Sandbar",
+    "printedName": "孤立した砂州",
+    "manaCost": "",
+    "cmc": 0,
+    "typeLine": "Land",
+    "printedTypeLine": "土地",
+    "oracleText": "This land enters tapped.\n{T}: Add {U}.\nCycling {U} ({U}, Discard this card: Draw a card.)",
+    "printedText": "孤立した砂州はタップ状態で戦場に出る。\n{T}：{U}を加える。\nサイクリング {U}（{U}, このカードを捨てる：カード１枚を引く。）",
+    "colors": [],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/0/0/001908da-70cc-4a53-9372-eb75c0721442.jpg?1782724126",
+      "normal": "https://cards.scryfall.io/normal/front/0/0/001908da-70cc-4a53-9372-eb75c0721442.jpg?1782724126",
+      "large": "https://cards.scryfall.io/large/front/0/0/001908da-70cc-4a53-9372-eb75c0721442.jpg?1782724126",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/0/0/001908da-70cc-4a53-9372-eb75c0721442.jpg?1782724126"
+    }
+  },
+  {
+    "id": "13bcbf2a-bc17-426b-8177-15c6eac1b66d",
+    "oracleId": "24aebda0-315f-4d2f-8bd9-00bbaf5bd76a",
+    "name": "Remote Isle",
+    "printedName": "離れ島",
+    "manaCost": "",
+    "cmc": 0,
+    "typeLine": "Land",
+    "printedTypeLine": "土地",
+    "oracleText": "This land enters tapped.\n{T}: Add {U}.\nCycling {2} ({2}, Discard this card: Draw a card.)",
+    "printedText": "離れ島はタップ状態で戦場に出る。\n{T}：{U}を加える。\nサイクリング{2}（{2}, このカードを捨てる：カード１枚を引く。）",
+    "colors": [],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/1/3/13bcbf2a-bc17-426b-8177-15c6eac1b66d.jpg?1782724125",
+      "normal": "https://cards.scryfall.io/normal/front/1/3/13bcbf2a-bc17-426b-8177-15c6eac1b66d.jpg?1782724125",
+      "large": "https://cards.scryfall.io/large/front/1/3/13bcbf2a-bc17-426b-8177-15c6eac1b66d.jpg?1782724125",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/1/3/13bcbf2a-bc17-426b-8177-15c6eac1b66d.jpg?1782724125"
+    }
+  },
+  {
+    "id": "acb6a9c1-fdc5-4148-9798-c48f7fa8bdd7",
+    "oracleId": "db9c155f-b342-41bb-9e1a-50358fb9f40e",
+    "name": "The Surgical Bay",
+    "printedName": "外科区画",
+    "manaCost": "",
+    "cmc": 0,
+    "typeLine": "Land — Sphere",
+    "printedTypeLine": "土地 — 球層",
+    "oracleText": "This land enters tapped.\n{T}: Add {U}.\n{1}{U}, {T}, Sacrifice this land: Draw a card.",
+    "printedText": "外科区画はタップ状態で戦場に出る。\n{T}：{U}を加える。\n{1}{U}, {T}, 外科区画を生け贄に捧げる：カード１枚を引く。",
+    "colors": [],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/a/c/acb6a9c1-fdc5-4148-9798-c48f7fa8bdd7.jpg?1782724125",
+      "normal": "https://cards.scryfall.io/normal/front/a/c/acb6a9c1-fdc5-4148-9798-c48f7fa8bdd7.jpg?1782724125",
+      "large": "https://cards.scryfall.io/large/front/a/c/acb6a9c1-fdc5-4148-9798-c48f7fa8bdd7.jpg?1782724125",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/a/c/acb6a9c1-fdc5-4148-9798-c48f7fa8bdd7.jpg?1782724125"
+    }
+  },
+  {
+    "id": "82fc6856-c964-4336-b3bd-b802bb4572fe",
+    "oracleId": "5578cf33-62f5-456c-a58c-f744a25df79b",
+    "name": "Svyelunite Temple",
+    "printedName": "シヴィエルナイトの寺院",
+    "manaCost": "",
+    "cmc": 0,
+    "typeLine": "Land",
+    "oracleText": "This land enters tapped.\n{T}: Add {U}.\n{T}, Sacrifice this land: Add {U}{U}.",
+    "colors": [],
+    "colorIdentity": [
+      "U"
+    ],
+    "layout": "normal",
+    "imageUris": {
+      "small": "https://cards.scryfall.io/small/front/8/2/82fc6856-c964-4336-b3bd-b802bb4572fe.jpg?1782724125",
+      "normal": "https://cards.scryfall.io/normal/front/8/2/82fc6856-c964-4336-b3bd-b802bb4572fe.jpg?1782724125",
+      "large": "https://cards.scryfall.io/large/front/8/2/82fc6856-c964-4336-b3bd-b802bb4572fe.jpg?1782724125",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/8/2/82fc6856-c964-4336-b3bd-b802bb4572fe.jpg?1782724125"
+    }
+  }
+]

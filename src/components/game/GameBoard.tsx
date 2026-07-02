@@ -1,0 +1,226 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useMatchStore } from "../../store/matchStore";
+import { buildCardInstances, shuffleWithSeed, getPresetById } from "../../cardPool";
+import ConnectionStatusBadge from "../shared/ConnectionStatusBadge";
+import PlayerInfo from "./PlayerInfo";
+import BattlefieldView from "./BattlefieldView";
+import HandView from "./HandView";
+import StackView from "./StackView";
+import PriorityControl from "./PriorityControl";
+import SharedGraveyardView from "./SharedGraveyardView";
+import LibraryTopModal from "./LibraryTopModal";
+import type { Phase } from "../../types/game";
+import { v4 as uuidv4 } from "uuid";
+import type { CardInstance } from "../../types/card";
+
+const PHASE_LABELS: Record<Phase, string> = {
+  beginning: "開始",
+  "precombat-main": "メイン1",
+  combat: "戦闘",
+  "postcombat-main": "メイン2",
+  ending: "終了",
+};
+
+type Props = {
+  isLocal: boolean;
+};
+
+export default function GameBoard({ isLocal }: Props) {
+  const gameState = useMatchStore((s) => s.gameState);
+  const sendCommand = useMatchStore((s) => s.sendCommand);
+  const playerId = useMatchStore((s) => s.playerId);
+  const opponentId = useMatchStore((s) => s.opponentId);
+  const clearPersistedMatch = useMatchStore((s) => s.clearPersistedMatch);
+  const navigate = useNavigate();
+
+  const [showGraveyard, setShowGraveyard] = useState(false);
+  const [showLibraryTop, setShowLibraryTop] = useState(false);
+  const [showEventLog, setShowEventLog] = useState(false);
+  const eventLog = useMatchStore((s) => s.eventLog);
+
+  // ゲーム開始（カードを配る）
+  const handleStartGame = () => {
+    if (!gameState) return;
+    const preset = getPresetById(gameState.settings.cardPoolPresetId);
+    if (!preset) return;
+
+    const instances = buildCardInstances(preset);
+    const seed = uuidv4();
+    const shuffledIds = shuffleWithSeed(instances.map((i) => i.instanceId), seed);
+
+    const cardInstancesMap: Record<string, CardInstance> = {};
+    for (const inst of instances) {
+      cardInstancesMap[inst.instanceId] = inst;
+    }
+
+    // game-started をホストで適用しゲストへも送信
+    useMatchStore.getState().broadcastEvent({
+      type: "game-started",
+      startedAt: Date.now(),
+      libraryCardInstanceIds: shuffledIds,
+      cardInstances: cardInstancesMap,
+    });
+
+    // 各プレイヤーに7枚配る
+    const pids = gameState.playerOrder;
+    for (const pid of pids) {
+      sendCommand({ type: "draw-card", playerId: pid, count: 7 });
+    }
+  };
+
+  if (!gameState) return null;
+
+  const { players, playerOrder, phase, priority, sharedLibrary, sharedGraveyard } = gameState;
+
+  // ローカル対戦ではplayerIdsのどちらでも操作できる
+  // WebRTC対戦ではopponentId = 相手
+  const gameStarted = sharedLibrary.cardInstanceIds.length > 0 || Object.values(gameState.hands).some(h => h.length > 0);
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
+      {/* ヘッダー */}
+      <div style={{ padding: "8px 12px", background: "var(--bg-secondary)", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", flexShrink: 0 }}>
+        <div style={{ fontWeight: "bold", color: "var(--accent)" }}>Dandân</div>
+        <ConnectionStatusBadge status={isLocal ? "connected" : gameState.connectionStatus} />
+        <div style={{ color: "var(--text-muted)", fontSize: "12px" }}>
+          ターン: <span style={{ color: "var(--text)" }}>{players[gameState.turnPlayerId ?? ""]?.displayName ?? "—"}</span>
+        </div>
+        <div style={{ color: "var(--text-muted)", fontSize: "12px" }}>
+          フェイズ: <span style={{ color: "var(--text)" }}>{PHASE_LABELS[phase]}</span>
+        </div>
+        <div style={{ color: "var(--text-muted)", fontSize: "12px" }}>
+          📚 {sharedLibrary.cardInstanceIds.length}枚
+        </div>
+
+        <div style={{ marginLeft: "auto", display: "flex", gap: "6px" }}>
+          {!gameStarted && (
+            <button className="primary small" onClick={handleStartGame}>
+              ゲーム開始
+            </button>
+          )}
+          <button className="secondary small" onClick={() => setShowGraveyard(true)}>
+            墓地 ({sharedGraveyard.cardInstanceIds.length})
+          </button>
+          <button className="secondary small" onClick={() => setShowLibraryTop(true)}>
+            ライブラリー操作
+          </button>
+          <button className="secondary small" onClick={() => sendCommand({ type: "draw-card", playerId, count: 1 })}>
+            ドロー
+          </button>
+          <button className="secondary small" onClick={() => setShowEventLog(!showEventLog)}>
+            ログ
+          </button>
+          <button className="danger small" onClick={() => {
+            if (confirm("ゲームを終了しますか？")) {
+              clearPersistedMatch();
+              navigate("/");
+            }
+          }}>
+            終了
+          </button>
+        </div>
+      </div>
+
+      {/* メインエリア */}
+      <div style={{ flex: 1, overflow: "auto", padding: "8px", display: "flex", flexDirection: "column", gap: "8px" }}>
+        {/* 相手エリア（ローカル対戦時は2人目、WebRTC時は相手） */}
+        {isLocal ? (
+          /* ローカル: 2人目 */
+          playerOrder.length > 1 && (() => {
+            const p2id = playerOrder[1];
+            const p2 = players[p2id];
+            if (!p2) return null;
+            return (
+              <div key={p2id}>
+                <PlayerInfo
+                  player={p2}
+                  isLocal={false}
+                  handCount={gameState.hands[p2id]?.length ?? 0}
+                  battlefieldCount={gameState.battlefield.filter(c => c.controllerPlayerId === p2id).length}
+                  isActive={gameState.activePlayerId === p2id}
+                  hasPriority={priority.holderPlayerId === p2id}
+                />
+                <div style={{ marginTop: "6px" }}>
+                  <BattlefieldView playerId={p2id} label={`${p2.displayName}の戦場`} />
+                </div>
+                <div style={{ marginTop: "6px" }}>
+                  <HandView playerId={p2id} isOpponent={false} />
+                </div>
+              </div>
+            );
+          })()
+        ) : (
+          opponentId && players[opponentId] && (
+            <div>
+              <PlayerInfo
+                player={players[opponentId]}
+                isLocal={false}
+                handCount={gameState.hands[opponentId]?.length ?? 0}
+                battlefieldCount={gameState.battlefield.filter(c => c.controllerPlayerId === opponentId).length}
+                isActive={gameState.activePlayerId === opponentId}
+                hasPriority={priority.holderPlayerId === opponentId}
+              />
+              <div style={{ marginTop: "6px" }}>
+                <BattlefieldView playerId={opponentId} label="相手の戦場" />
+              </div>
+              <div style={{ marginTop: "6px" }}>
+                <HandView playerId={opponentId} isOpponent={true} />
+              </div>
+            </div>
+          )
+        )}
+
+        {/* スタック & 優先権 */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+          <StackView />
+          <PriorityControl />
+        </div>
+
+        {/* 自分のエリア */}
+        {(() => {
+          const p1id = isLocal ? playerOrder[0] : playerId;
+          const p1 = players[p1id];
+          if (!p1) return null;
+          return (
+            <div>
+              <div style={{ marginBottom: "6px" }}>
+                <BattlefieldView playerId={p1id} label={isLocal ? `${p1.displayName}の戦場` : "自分の戦場"} />
+              </div>
+              <div style={{ marginBottom: "6px" }}>
+                <HandView playerId={p1id} isOpponent={false} />
+              </div>
+              <PlayerInfo
+                player={p1}
+                isLocal={true}
+                handCount={gameState.hands[p1id]?.length ?? 0}
+                battlefieldCount={gameState.battlefield.filter(c => c.controllerPlayerId === p1id).length}
+                isActive={gameState.activePlayerId === p1id}
+                hasPriority={priority.holderPlayerId === p1id}
+              />
+            </div>
+          );
+        })()}
+      </div>
+
+      {/* モーダル */}
+      {showGraveyard && <SharedGraveyardView onClose={() => setShowGraveyard(false)} />}
+      {showLibraryTop && <LibraryTopModal onClose={() => setShowLibraryTop(false)} />}
+
+      {/* イベントログ */}
+      {showEventLog && (
+        <div style={{ position: "fixed", right: "0", top: "0", bottom: "0", width: "300px", background: "var(--bg-secondary)", borderLeft: "1px solid var(--border)", padding: "12px", overflowY: "auto", zIndex: 500 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+            <h3 style={{ fontSize: "14px" }}>イベントログ</h3>
+            <button className="secondary small" onClick={() => setShowEventLog(false)}>×</button>
+          </div>
+          {[...eventLog].reverse().map((e) => (
+            <div key={e.seq} style={{ fontSize: "11px", color: "var(--text-muted)", marginBottom: "4px", padding: "4px", background: "var(--bg-card)", borderRadius: "4px" }}>
+              <span style={{ color: "var(--accent)" }}>#{e.seq}</span> {e.event.type}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
