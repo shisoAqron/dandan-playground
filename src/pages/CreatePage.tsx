@@ -12,12 +12,15 @@ export default function CreatePage() {
   const [answerCode, setAnswerCode] = useState("");
   const [step, setStep] = useState<"setup" | "offer" | "waiting" | "connected">("setup");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const transportRef = useRef<NativeWebRtcManualTransport | null>(null);
   const matchIdRef = useRef<string>("");
 
   const handleCreateOffer = async () => {
     try {
+      setLoading(true);
+      setError("");
       const transport = new NativeWebRtcManualTransport();
       transportRef.current = transport;
 
@@ -26,6 +29,8 @@ export default function CreatePage() {
       setStep("offer");
     } catch (e) {
       setError(String(e));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,8 +83,8 @@ export default function CreatePage() {
               <label style={{ display: "block", marginBottom: "4px" }}>あなたの名前</label>
               <input value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
             </div>
-            <button className="primary" onClick={handleCreateOffer}>
-              招待コードを生成する
+            <button className="primary" onClick={handleCreateOffer} disabled={loading}>
+              {loading ? "生成中..." : "招待コードを生成する"}
             </button>
             <button className="secondary" onClick={() => navigate("/")}>戻る</button>
           </div>

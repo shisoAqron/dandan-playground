@@ -12,17 +12,21 @@ export default function JoinPage() {
   const [answerCode, setAnswerCode] = useState("");
   const [step, setStep] = useState<"setup" | "answer" | "connected">("setup");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const transportRef = useRef<NativeWebRtcManualTransport | null>(null);
 
   const handleCreateAnswer = async () => {
     try {
+      setLoading(true);
+      setError("");
       const transport = new NativeWebRtcManualTransport();
       transportRef.current = transport;
 
       const code = await transport.createAnswer(offerCode.trim());
       setAnswerCode(code);
       setStep("answer");
+      setLoading(false);
 
       // 接続確立を待つ
       transport.onStatusChange((status) => {
@@ -78,6 +82,7 @@ export default function JoinPage() {
       });
     } catch (e) {
       setError(String(e));
+      setLoading(false);
     }
   };
 
@@ -102,8 +107,8 @@ export default function JoinPage() {
                 style={{ fontSize: "11px", resize: "vertical" }}
               />
             </div>
-            <button className="primary" onClick={handleCreateAnswer} disabled={!offerCode}>
-              回答コードを生成する
+            <button className="primary" onClick={handleCreateAnswer} disabled={!offerCode || loading}>
+              {loading ? "生成中..." : "回答コードを生成する"}
             </button>
             <button className="secondary" onClick={() => navigate("/")}>戻る</button>
           </div>
