@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { useMatchStore } from "../../store/matchStore";
 import CardView from "../shared/CardView";
+import CardActionMenu from "./CardActionMenu";
 import type { CardInstance } from "../../types/card";
 
 export default function SharedGraveyardView({ onClose }: { onClose: () => void }) {
   const gameState = useMatchStore((s) => s.gameState);
-  const sendCommand = useMatchStore((s) => s.sendCommand);
   const playerId = useMatchStore((s) => s.playerId);
+  const [selectedInstance, setSelectedInstance] = useState<CardInstance | null>(null);
 
   if (!gameState) return null;
 
@@ -17,6 +19,7 @@ export default function SharedGraveyardView({ onClose }: { onClose: () => void }
   const akCount = instances.filter((c) => c.name === "Accumulated Knowledge").length;
 
   return (
+    <>
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "700px" }}>
         <h2>共有墓地 ({instances.length}枚)</h2>
@@ -31,31 +34,7 @@ export default function SharedGraveyardView({ onClose }: { onClose: () => void }
           )}
           {instances.map((inst) => (
             <div key={inst.instanceId}>
-              <CardView instance={inst} size="sm" onClick={() => {
-                sendCommand({
-                  type: "move-card",
-                  playerId,
-                  cardInstanceId: inst.instanceId,
-                  from: "shared-graveyard",
-                  to: "shared-library",
-                  position: "top",
-                });
-              }} />
-              <button
-                className="secondary small"
-                style={{ width: "100%", marginTop: "2px" }}
-                onClick={() =>
-                  sendCommand({
-                    type: "move-card",
-                    playerId,
-                    cardInstanceId: inst.instanceId,
-                    from: "shared-graveyard",
-                    to: "hand",
-                  })
-                }
-              >
-                手札へ
-              </button>
+              <CardView instance={inst} size="sm" onClick={() => setSelectedInstance(inst)} />
             </div>
           ))}
         </div>
@@ -64,5 +43,15 @@ export default function SharedGraveyardView({ onClose }: { onClose: () => void }
         </button>
       </div>
     </div>
+
+    {selectedInstance && (
+      <CardActionMenu
+        instance={selectedInstance}
+        zone="shared-graveyard"
+        activePlayerId={playerId}
+        onClose={() => setSelectedInstance(null)}
+      />
+    )}
+    </>
   );
 }

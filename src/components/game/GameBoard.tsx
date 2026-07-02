@@ -9,6 +9,7 @@ import HandView from "./HandView";
 import StackView from "./StackView";
 import PriorityControl from "./PriorityControl";
 import SharedGraveyardView from "./SharedGraveyardView";
+import ExileView from "./ExileView";
 import LibraryTopModal from "./LibraryTopModal";
 import type { Phase } from "../../types/game";
 import { v4 as uuidv4 } from "uuid";
@@ -35,6 +36,7 @@ export default function GameBoard({ isLocal }: Props) {
   const navigate = useNavigate();
 
   const [showGraveyard, setShowGraveyard] = useState(false);
+  const [showExile, setShowExile] = useState(false);
   const [showLibraryTop, setShowLibraryTop] = useState(false);
   const [showEventLog, setShowEventLog] = useState(false);
   const eventLog = useMatchStore((s) => s.eventLog);
@@ -101,6 +103,9 @@ export default function GameBoard({ isLocal }: Props) {
           )}
           <button className="secondary small" onClick={() => setShowGraveyard(true)}>
             墓地 ({sharedGraveyard.cardInstanceIds.length})
+          </button>
+          <button className="secondary small" onClick={() => setShowExile(true)}>
+            追放 ({gameState.exile.length})
           </button>
           <button className="secondary small" onClick={() => setShowLibraryTop(true)}>
             ライブラリー操作
@@ -205,6 +210,7 @@ export default function GameBoard({ isLocal }: Props) {
 
       {/* モーダル */}
       {showGraveyard && <SharedGraveyardView onClose={() => setShowGraveyard(false)} />}
+      {showExile && <ExileView onClose={() => setShowExile(false)} />}
       {showLibraryTop && <LibraryTopModal onClose={() => setShowLibraryTop(false)} />}
 
       {/* イベントログ */}

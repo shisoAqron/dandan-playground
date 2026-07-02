@@ -146,6 +146,24 @@ export default function CardActionMenu({ instance, zone, onClose }: Props) {
     </>
   );
 
+  const exileActions = (
+    <>
+      <h3 style={{ marginBottom: "8px", color: "var(--accent)" }}>追放ゾーンから</h3>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("hand")}>
+        手札へ戻す
+      </button>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("battlefield")}>
+        戦場へ
+      </button>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("shared-graveyard")}>
+        墓地へ
+      </button>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("shared-library", "top")}>
+        ライブラリートップへ
+      </button>
+    </>
+  );
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "480px" }}>
@@ -165,6 +183,7 @@ export default function CardActionMenu({ instance, zone, onClose }: Props) {
               {zone === "battlefield" && battlefieldActions}
               {zone === "stack" && stackActions}
               {zone === "shared-graveyard" && graveyardActions}
+              {zone === "exile" && exileActions}
               {zone === "shared-library" && (
                 <>
                   <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() => moveCard("hand")}>
