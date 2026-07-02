@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMatchStore } from "../../store/matchStore";
 import { buildCardInstances, shuffleWithSeed, getPresetById } from "../../cardPool";
 import ConnectionStatusBadge from "../shared/ConnectionStatusBadge";
+import ToastContainer, { showToast } from "../shared/ToastContainer";
 import PlayerInfo from "./PlayerInfo";
 import BattlefieldView from "./BattlefieldView";
 import HandView from "./HandView";
@@ -40,6 +41,84 @@ export default function GameBoard({ isLocal }: Props) {
   const [showLibraryTop, setShowLibraryTop] = useState(false);
   const [showEventLog, setShowEventLog] = useState(false);
   const eventLog = useMatchStore((s) => s.eventLog);
+
+  // 新着イベントをトーストで表示
+  const lastNotifiedSeq = useRef(0);
+  useEffect(() => {
+    if (!gameState) return;
+    const ZONE_LABEL: Record<string, string> = {
+      "shared-library": "ライブラリー",
+      "hand": "手札",
+      "battlefield": "戦場",
+      "shared-graveyard": "墓地",
+      "exile": "追放",
+      "stack": "スタック",
+    };
+    const newEntries = eventLog.filter((e) => e.seq > lastNotifiedSeq.current);
+    for (const e of newEntries) {
+      const ev = e.event;
+      let detail = "";
+      if (ev.type === "card-drawn") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        detail = `${who} が ${ev.cardInstanceIds.length}枚 ドローした`;
+      } else if (ev.type === "library-top-revealed") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        if (ev.private) {
+          detail = `${who} がトップ ${ev.cardInstanceIds.length} 枚を確認（非公開）`;
+        } else {
+          const names = ev.cardInstanceIds.map((id) => gameState.cardInstances[id]?.name ?? id).join(", ");
+          detail = `${who} が公開: ${names}`;
+        }
+      } else if (ev.type === "library-shuffled") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        detail = `${who} がライブラリーをシャッフルした`;
+      } else if (ev.type === "library-top-reordered") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        detail = `${who} が ${ev.cardInstanceIds.length}枚 トップに戻した`;
+      } else if (ev.type === "land-played") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+        detail = `${who} が土地をプレイ: ${cardName}`;
+      } else if (ev.type === "spell-cast") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+        detail = `${who} が呪文を唱えた: ${cardName}`;
+      } else if (ev.type === "controller-set") {
+        const who = gameState.players[ev.controllerPlayerId]?.displayName ?? ev.controllerPlayerId;
+        const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+        detail = `${who} が ${cardName} のコントロールを得た`;
+      } else if (ev.type === "card-tapped") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+        detail = `${who}: ${cardName} を${ev.tapped ? "タップ" : "アンタップ"}`;
+      } else if (ev.type === "stack-top-resolved") {
+        const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+        const dest = ev.destination === "battlefield" ? "戦場へ" : "墓地へ";
+        detail = `${cardName} が解決された → ${dest}`;
+      } else if (ev.type === "spell-countered") {
+        const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
+        const dest = ev.toLibraryTop ? "ライブラリートップへ" : "墓地へ";
+        detail = `${cardName} が打ち消された → ${dest}`;
+      } else if (ev.type === "mulligan-declared") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        detail = `${who} がマリガンを宣言した`;
+      } else if (ev.type === "hand-kept") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        detail = `${who} が手札をキープした`;
+      } else if (ev.type === "card-moved") {
+        const cardName = ev.revealed !== false
+          ? (gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId)
+          : "？（非公開）";
+        const fromLabel = ZONE_LABEL[ev.from] ?? ev.from;
+        const toLabel = ZONE_LABEL[ev.to] ?? ev.to;
+        const posLabel = ev.position === "top" ? "（トップ）" : ev.position === "bottom" ? "（ボトム）" : "";
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        detail = `${who}: ${cardName} ${fromLabel} → ${toLabel}${posLabel}`;
+      }
+      if (detail) showToast(detail);
+      lastNotifiedSeq.current = e.seq;
+    }
+  }, [eventLog, gameState]);
 
   // ゲーム開始（カードを配る）
   const handleStartGame = () => {
@@ -100,6 +179,7 @@ export default function GameBoard({ isLocal }: Props) {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
+      <ToastContainer />
       {/* ヘッダー */}
       <div style={{ padding: "8px 12px", background: "var(--bg-secondary)", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap", flexShrink: 0 }}>
         <div style={{ fontWeight: "bold", color: "var(--accent)" }}>Dandân</div>
