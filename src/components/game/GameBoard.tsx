@@ -261,9 +261,6 @@ export default function GameBoard({ isLocal }: Props) {
 
         {/* スタック + アクションボタン */}
         <div style={{ display: "flex", gap: "8px", alignItems: "stretch" }}>
-          <div style={{ flex: 1, minWidth: 0, height: "100%" }}>
-            <StackView />
-          </div>
           <div className="panel" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4px", flexShrink: 0, alignContent: "start" }}>
             <button className="secondary small" onClick={() => setShowGraveyard(true)}>
               墓地 ({sharedGraveyard.cardInstanceIds.length})
@@ -274,9 +271,12 @@ export default function GameBoard({ isLocal }: Props) {
             <button className="secondary small" onClick={() => setShowLibraryTop(true)}>
               ライブラリー操作
             </button>
-            <button className="secondary small" onClick={() => sendCommand({ type: "draw-card", playerId, count: 1 })}>
+            <button className="primary small" onClick={() => sendCommand({ type: "draw-card", playerId, count: 1 })}>
               ドロー
             </button>
+          </div>
+          <div style={{ flex: 1, minWidth: 0, height: "100%" }}>
+            <StackView />
           </div>
         </div>
 
