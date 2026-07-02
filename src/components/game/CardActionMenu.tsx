@@ -44,15 +44,22 @@ export default function CardActionMenu({ instance, zone, onClose, activePlayerId
     );
   };
 
+  const isMulliganPhase = (gameState.mulliganPending?.length ?? 0) > 0;
+
   const handActions = (
     <>
       <h3 style={{ marginBottom: "8px", color: "var(--accent)" }}>手札から</h3>
-      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() =>
+      {isMulliganPhase && (
+        <p style={{ fontSize: "11px", color: "var(--warning)", marginBottom: "8px" }}>
+          ⚠️ 全員のマリガンが完了するまでプレイできません
+        </p>
+      )}
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() =>
         handleAction(() => sendCommand({ type: "play-land", playerId, cardInstanceId: instance.instanceId }))
       }>
         土地としてプレイ
       </button>
-      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} onClick={() =>
+      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() =>
         handleAction(() => sendCommand({ type: "cast-spell", playerId, cardInstanceId: instance.instanceId }))
       }>
         呪文として唱える
