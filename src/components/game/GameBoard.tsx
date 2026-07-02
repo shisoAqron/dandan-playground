@@ -155,24 +155,6 @@ export default function GameBoard({ isLocal }: Props) {
   const { players, playerOrder, phase, priority, sharedLibrary, sharedGraveyard } = gameState;
   const mulliganPending = gameState.mulliganPending;
 
-  const MulliganBar = ({ pid }: { pid: string }) => {
-    if (!mulliganPending.includes(pid)) return null;
-    return (
-      <div style={{ padding: "8px 12px", background: "#2a1a3a", border: "1px solid var(--warning)", borderRadius: "6px", display: "flex", alignItems: "center", gap: "10px", marginTop: "6px" }}>
-        <span style={{ color: "var(--warning)", fontSize: "13px", fontWeight: "bold" }}>マリガン?</span>
-        <span style={{ color: "var(--text-muted)", fontSize: "12px", flex: 1 }}>
-          手札: {gameState.hands[pid]?.length ?? 0}枚
-        </span>
-        <button className="danger small" onClick={() => sendCommand({ type: "mulligan", playerId: pid })}>
-          マリガン
-        </button>
-        <button className="primary small" onClick={() => sendCommand({ type: "keep-hand", playerId: pid })}>
-          キープ
-        </button>
-      </div>
-    );
-  };
-
   // ローカル対戦ではplayerIdsのどちらでも操作できる
   // WebRTC対戦ではopponentId = 相手
   const gameStarted = sharedLibrary.cardInstanceIds.length > 0 || Object.values(gameState.hands).some(h => h.length > 0);
@@ -244,10 +226,14 @@ export default function GameBoard({ isLocal }: Props) {
                   battlefieldCount={gameState.battlefield.filter(c => c.controllerPlayerId === p2id).length}
                   isActive={gameState.activePlayerId === p2id}
                   hasPriority={priority.holderPlayerId === p2id}
+                  mulliganPending={mulliganPending.includes(p2id)}
+                  onMulligan={() => sendCommand({ type: "mulligan", playerId: p2id })}
+                  onKeepHand={() => sendCommand({ type: "keep-hand", playerId: p2id })}
                 />
                 <div style={{ marginTop: "6px" }}>
                   <HandView playerId={p2id} isOpponent={false} />
-                </div>                <MulliganBar pid={p2id} />                <div style={{ marginTop: "6px" }}>
+                </div>
+                <div style={{ marginTop: "6px" }}>
                   <BattlefieldView playerId={p2id} label={`${p2.displayName}の戦場`} />
                 </div>
               </div>
@@ -263,15 +249,11 @@ export default function GameBoard({ isLocal }: Props) {
                 battlefieldCount={gameState.battlefield.filter(c => c.controllerPlayerId === opponentId).length}
                 isActive={gameState.activePlayerId === opponentId}
                 hasPriority={priority.holderPlayerId === opponentId}
+                mulliganPending={mulliganPending.includes(opponentId)}
               />
               <div style={{ marginTop: "6px" }}>
                 <HandView playerId={opponentId} isOpponent={true} />
               </div>
-              {mulliganPending.includes(opponentId) && (
-                <div style={{ padding: "6px 12px", background: "#2a1a3a", border: "1px solid var(--warning)", borderRadius: "6px", marginTop: "6px", fontSize: "12px", color: "var(--warning)" }}>
-                  マリガン検討中…
-                </div>
-              )}
               <div style={{ marginTop: "6px" }}>
                 <BattlefieldView playerId={opponentId} label="相手の戦場" />
               </div>
@@ -298,7 +280,6 @@ export default function GameBoard({ isLocal }: Props) {
               <div style={{ marginBottom: "6px" }}>
                 <HandView playerId={p1id} isOpponent={false} />
               </div>
-              <MulliganBar pid={p1id} />
               <PlayerInfo
                 player={p1}
                 isLocal={true}
@@ -306,6 +287,9 @@ export default function GameBoard({ isLocal }: Props) {
                 battlefieldCount={gameState.battlefield.filter(c => c.controllerPlayerId === p1id).length}
                 isActive={gameState.activePlayerId === p1id}
                 hasPriority={priority.holderPlayerId === p1id}
+                mulliganPending={mulliganPending.includes(p1id)}
+                onMulligan={() => sendCommand({ type: "mulligan", playerId: p1id })}
+                onKeepHand={() => sendCommand({ type: "keep-hand", playerId: p1id })}
               />
             </div>
           );

@@ -33,7 +33,7 @@ export default function TopPage() {
           マッチに参加（ゲスト）
         </button>
         <button className="secondary" style={{ padding: "14px", fontSize: "16px" }} onClick={handleResumeGame}>
-          前回のゲームを再開
+          前回のゲームを再開 <span style={{ fontSize: "11px", color: "var(--warning)", marginLeft: "4px" }}>(β)</span>
         </button>
       </div>
 
