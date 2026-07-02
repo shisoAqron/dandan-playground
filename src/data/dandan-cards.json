@@ -1,6 +1,6 @@
 [
   {
-    "id": "212e84a3-e028-42a6-a639-f42b64ab7015",
+    "id": "9a15b06c-8a5c-4e19-887e-e7daf6f653b9",
     "oracleId": "b2c6aa39-2d2a-459c-a555-fb48ba993373",
     "name": "Island",
     "printedName": "島",
@@ -16,10 +16,10 @@
     ],
     "layout": "normal",
     "imageUris": {
-      "small": "https://cards.scryfall.io/small/front/2/1/212e84a3-e028-42a6-a639-f42b64ab7015.jpg?1782723395",
-      "normal": "https://cards.scryfall.io/normal/front/2/1/212e84a3-e028-42a6-a639-f42b64ab7015.jpg?1782723395",
-      "large": "https://cards.scryfall.io/large/front/2/1/212e84a3-e028-42a6-a639-f42b64ab7015.jpg?1782723395",
-      "artCrop": "https://cards.scryfall.io/art_crop/front/2/1/212e84a3-e028-42a6-a639-f42b64ab7015.jpg?1782723395"
+      "small": "https://cards.scryfall.io/small/front/9/a/9a15b06c-8a5c-4e19-887e-e7daf6f653b9.jpg?1782724135",
+      "normal": "https://cards.scryfall.io/normal/front/9/a/9a15b06c-8a5c-4e19-887e-e7daf6f653b9.jpg?1782724135",
+      "large": "https://cards.scryfall.io/large/front/9/a/9a15b06c-8a5c-4e19-887e-e7daf6f653b9.jpg?1782724135",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/9/a/9a15b06c-8a5c-4e19-887e-e7daf6f653b9.jpg?1782724135"
     }
   },
   {
@@ -148,7 +148,7 @@
     }
   },
   {
-    "id": "6b8f867d-eff5-493f-a881-bcbc4ae06b33",
+    "id": "caf333b7-3e70-4745-9304-99b21244196c",
     "oracleId": "36cd2364-d113-47d1-b2c4-b088d9eb88dd",
     "name": "Brainstorm",
     "printedName": "渦まく知識",
@@ -166,10 +166,10 @@
     ],
     "layout": "normal",
     "imageUris": {
-      "small": "https://cards.scryfall.io/small/front/6/b/6b8f867d-eff5-493f-a881-bcbc4ae06b33.jpg?1782723879",
-      "normal": "https://cards.scryfall.io/normal/front/6/b/6b8f867d-eff5-493f-a881-bcbc4ae06b33.jpg?1782723879",
-      "large": "https://cards.scryfall.io/large/front/6/b/6b8f867d-eff5-493f-a881-bcbc4ae06b33.jpg?1782723879",
-      "artCrop": "https://cards.scryfall.io/art_crop/front/6/b/6b8f867d-eff5-493f-a881-bcbc4ae06b33.jpg?1782723879"
+      "small": "https://cards.scryfall.io/small/front/c/a/caf333b7-3e70-4745-9304-99b21244196c.jpg?1782724134",
+      "normal": "https://cards.scryfall.io/normal/front/c/a/caf333b7-3e70-4745-9304-99b21244196c.jpg?1782724134",
+      "large": "https://cards.scryfall.io/large/front/c/a/caf333b7-3e70-4745-9304-99b21244196c.jpg?1782724134",
+      "artCrop": "https://cards.scryfall.io/art_crop/front/c/a/caf333b7-3e70-4745-9304-99b21244196c.jpg?1782724134"
     }
   },
   {
