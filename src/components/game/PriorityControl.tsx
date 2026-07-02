@@ -1,11 +1,12 @@
 import { useMatchStore } from "../../store/matchStore";
 import type { Phase } from "../../types/game";
 
-// 表示するフェイズ（アップキープ・ドロー・メイン1・メイン2・エンド）
+// 表示するフェイズ（アップキープ・ドロー・メイン1・戦闘・メイン2・エンド）
 const PHASES: Phase[] = [
   "upkeep",
   "draw",
   "precombat-main",
+  "combat",
   "postcombat-main",
   "ending",
 ];
