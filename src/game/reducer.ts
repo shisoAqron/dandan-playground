@@ -174,11 +174,14 @@ export function applyGameEvent(state: GameState, event: GameEvent): GameState {
       let newExile = [...state.exile];
       let newStack = [...state.stack];
       const newHands = { ...state.hands };
+      // ライブラリーから移動する場合は公開リストからも除去
+      let newRevealedTop = state.revealedLibraryTop;
 
       // from zone から削除
       switch (event.from) {
         case "shared-library":
           newLibrary = newLibrary.filter((id) => id !== cardId);
+          newRevealedTop = newRevealedTop.filter((id) => id !== cardId);
           break;
         case "shared-graveyard":
           newGraveyard = newGraveyard.filter((id) => id !== cardId);
@@ -259,6 +262,7 @@ export function applyGameEvent(state: GameState, event: GameEvent): GameState {
         exile: newExile,
         stack: newStack,
         hands: newHands,
+        revealedLibraryTop: newRevealedTop,
         cardInstances: {
           ...state.cardInstances,
           [cardId]: updatedInstance,

@@ -15,7 +15,10 @@ export default function LibraryTopModal({ onClose }: { onClose: () => void }) {
 
   const libraryIds = gameState.sharedLibrary.cardInstanceIds;
   const revealedIds = gameState.revealedLibraryTop;
+  const libraryIdSet = new Set(libraryIds);
+  // ライブラリーにまだ存在するカードだけを表示（移動済みは除外）
   const revealedInstances = revealedIds
+    .filter((id) => libraryIdSet.has(id))
     .map((id) => gameState.cardInstances[id])
     .filter(Boolean) as CardInstance[];
 
