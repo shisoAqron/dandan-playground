@@ -439,6 +439,38 @@ export function applyGameEvent(state: GameState, event: GameEvent): GameState {
       return { ...state, phase: event.phase };
     }
 
+    case "extra-turn-started": {
+      const currentPlayer = event.playerId;
+      const updatedInstances = { ...state.cardInstances };
+      const updatedBattlefield = state.battlefield.map((c) => {
+        if (c.controllerPlayerId === currentPlayer) {
+          updatedInstances[c.instanceId] = { ...c, tapped: false };
+          return updatedInstances[c.instanceId];
+        }
+        return c;
+      });
+      return {
+        ...state,
+        turnPlayerId: currentPlayer,
+        activePlayerId: currentPlayer,
+        phase: "upkeep",
+        priority: {
+          holderPlayerId: currentPlayer,
+          consecutivePasses: 0,
+          lastActionSeq: state.latestSeq,
+        },
+        battlefield: updatedBattlefield,
+        cardInstances: updatedInstances,
+        players: {
+          ...state.players,
+          [currentPlayer]: {
+            ...state.players[currentPlayer],
+            landsPlayedThisTurn: 0,
+          },
+        },
+      };
+    }
+
     case "turn-ended": {
       const nextPlayer = event.nextPlayerId;
       // 全戦場のカードをアンタップ

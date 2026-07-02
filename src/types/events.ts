@@ -35,6 +35,7 @@ export type GameCommand =
   | { type: "reset-priority-passes"; playerId: string }
   | { type: "set-phase"; playerId: string; phase: Phase }
   | { type: "end-turn"; playerId: string }
+  | { type: "take-extra-turn"; playerId: string }
   | { type: "discard-card"; playerId: string; cardInstanceId: string }
   | { type: "counter-spell"; playerId: string; stackItemId: string; toLibraryTop?: boolean }
   | { type: "shuffle-library"; playerId: string }
@@ -96,6 +97,7 @@ export type GameEvent =
     }
   | { type: "phase-set"; phase: Phase }
   | { type: "turn-ended"; playerId: string; nextPlayerId: string }
+  | { type: "extra-turn-started"; playerId: string }
   | { type: "spell-countered"; stackItemId: string; cardInstanceId: string; toLibraryTop: boolean }
   | { type: "mulligan-declared"; playerId: string; returnedCardInstanceIds: string[] }
   | { type: "hand-kept"; playerId: string };

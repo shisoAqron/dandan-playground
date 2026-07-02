@@ -182,6 +182,10 @@ export function commandToEvent(
       return [{ type: "turn-ended", playerId, nextPlayerId }];
     }
 
+    case "take-extra-turn": {
+      return [{ type: "extra-turn-started", playerId: command.playerId }];
+    }
+
     case "discard-card": {
       const { playerId, cardInstanceId } = command;
       return [

@@ -73,6 +73,19 @@ export default function PriorityControl({ isLocal = false }: { isLocal?: boolean
         >
           ターン終了
         </button>
+        <button
+          className="secondary small"
+          onClick={() => {
+            if (turnPlayerId) {
+              sendCommand({ type: "take-extra-turn", playerId: turnPlayerId });
+            }
+          }}
+          disabled={!canEndTurn}
+          title={!canEndTurn ? "ターンプレイヤーのみ操作可能" : "ターンプレイヤーを変えずにアンタップ・アップキープへ"}
+          style={{ marginLeft: "4px" }}
+        >
+          追加ターン
+        </button>
       </div>
     </div>
   );
