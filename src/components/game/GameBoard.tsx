@@ -111,6 +111,14 @@ export default function GameBoard({ isLocal }: Props) {
       } else if (ev.type === "hand-kept") {
         const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
         detail = `${who} が手札をキープした`;
+      } else if (ev.type === "phase-set") {
+        detail = `フェイズ → ${PHASE_LABELS[ev.phase]}`;
+      } else if (ev.type === "turn-ended") {
+        const who = gameState.players[ev.nextPlayerId]?.displayName ?? ev.nextPlayerId;
+        detail = `ターン終了 → ${who} のターン`;
+      } else if (ev.type === "extra-turn-started") {
+        const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+        detail = `${who} が追加ターンを得た`;
       } else if (ev.type === "card-moved") {
         const cardName = ev.revealed !== false
           ? (gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId)
@@ -422,6 +430,14 @@ export default function GameBoard({ isLocal }: Props) {
             } else if (ev.type === "hand-kept") {
               const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
               detail = `${who} が手札をキープした`;
+            } else if (ev.type === "phase-set") {
+              detail = `フェイズ → ${PHASE_LABELS[ev.phase]}`;
+            } else if (ev.type === "turn-ended") {
+              const who = gameState.players[ev.nextPlayerId]?.displayName ?? ev.nextPlayerId;
+              detail = `ターン終了 → ${who} のターン`;
+            } else if (ev.type === "extra-turn-started") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              detail = `${who} が追加ターンを得た`;
             } else if (ev.type === "card-moved") {
               const cardName = ev.revealed !== false
                 ? (gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId)
