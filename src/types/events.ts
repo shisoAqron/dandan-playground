@@ -37,7 +37,9 @@ export type GameCommand =
   | { type: "end-turn"; playerId: string }
   | { type: "discard-card"; playerId: string; cardInstanceId: string }
   | { type: "counter-spell"; playerId: string; stackItemId: string; toLibraryTop?: boolean }
-  | { type: "shuffle-library"; playerId: string };
+  | { type: "shuffle-library"; playerId: string }
+  | { type: "mulligan"; playerId: string }
+  | { type: "keep-hand"; playerId: string };
 
 export type GameEvent =
   | {
@@ -94,7 +96,9 @@ export type GameEvent =
     }
   | { type: "phase-set"; phase: Phase }
   | { type: "turn-ended"; playerId: string; nextPlayerId: string }
-  | { type: "spell-countered"; stackItemId: string; cardInstanceId: string; toLibraryTop: boolean };
+  | { type: "spell-countered"; stackItemId: string; cardInstanceId: string; toLibraryTop: boolean }
+  | { type: "mulligan-declared"; playerId: string; returnedCardInstanceIds: string[] }
+  | { type: "hand-kept"; playerId: string };
 
 export type SequencedGameEvent = {
   seq: number;

@@ -90,6 +90,7 @@ export type GameState = {
   stack: StackItem[];
   cardInstances: Record<string, CardInstance>;
   revealedLibraryTop: string[];
+  mulliganPending: string[];
   latestSeq: number;
   connectionStatus: ConnectionStatus;
 };

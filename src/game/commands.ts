@@ -215,6 +215,58 @@ export function commandToEvent(
       ];
     }
 
+    case "mulligan": {
+      const { playerId } = command;
+      const hand = state.hands[playerId] ?? [];
+      const events: GameEvent[] = [];
+
+      // 1. 宣言（ログ用）
+      events.push({ type: "mulligan-declared", playerId, returnedCardInstanceIds: hand });
+
+      // 2. 手札を全てライブラリーボトムへ（公開扱い）
+      for (const cardInstanceId of hand) {
+        events.push({
+          type: "card-moved",
+          playerId,
+          cardInstanceId,
+          from: "hand",
+          to: "shared-library",
+          position: "bottom",
+          revealed: true,
+        });
+      }
+
+      // 3. 手札返却後のライブラリー順を計算してシャッフル
+      const libraryAfterReturn = [
+        ...state.sharedLibrary.cardInstanceIds,
+        ...hand,
+      ];
+      const shuffled = [...libraryAfterReturn];
+      let h = Date.now();
+      const rand = () => {
+        h = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
+        h = Math.imul(h ^ (h >>> 16), 0x45d9f3b);
+        h ^= h >>> 16;
+        return (h >>> 0) / 0x100000000;
+      };
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(rand() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      events.push({ type: "library-shuffled", playerId, cardInstanceIds: shuffled });
+      events.push({ type: "library-top-reordered", playerId, cardInstanceIds: shuffled });
+
+      // 4. 7枚ドロー
+      const drawIds = shuffled.slice(0, 7);
+      events.push({ type: "card-drawn", playerId, cardInstanceIds: drawIds });
+
+      return events;
+    }
+
+    case "keep-hand": {
+      return [{ type: "hand-kept", playerId: command.playerId }];
+    }
+
     case "counter-spell": {
       const { playerId, stackItemId, toLibraryTop } = command;
       void playerId;

@@ -52,6 +52,7 @@ export default function JoinPage() {
               stack: [],
               cardInstances: {},
               revealedLibraryTop: [],
+              mulliganPending: [],
               latestSeq: 0,
               connectionStatus: "connected",
             },

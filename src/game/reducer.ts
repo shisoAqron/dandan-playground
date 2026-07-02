@@ -44,6 +44,7 @@ export function createInitialGameState(
     stack: [],
     cardInstances: {},
     revealedLibraryTop: [],
+    mulliganPending: [],
     latestSeq: 0,
     connectionStatus: "idle",
   };
@@ -81,6 +82,7 @@ export function applyGameEvent(state: GameState, event: GameEvent): GameState {
         ...state,
         sharedLibrary: { cardInstanceIds: event.libraryCardInstanceIds },
         cardInstances: event.cardInstances,
+        mulliganPending: [...state.playerOrder],
       };
     }
 
@@ -470,7 +472,20 @@ export function applyGameEvent(state: GameState, event: GameEvent): GameState {
       };
     }
 
+    case "mulligan-declared": {
+      // ログ用イベント、state変更なし（card-moved/shuffle/draw が続いて適用される）
+      return state;
+    }
+
+    case "hand-kept": {
+      return {
+        ...state,
+        mulliganPending: state.mulliganPending.filter((id) => id !== event.playerId),
+      };
+    }
+
     default:
       return state;
   }
 }
+

@@ -74,6 +74,25 @@ export default function GameBoard({ isLocal }: Props) {
   if (!gameState) return null;
 
   const { players, playerOrder, phase, priority, sharedLibrary, sharedGraveyard } = gameState;
+  const mulliganPending = gameState.mulliganPending;
+
+  const MulliganBar = ({ pid }: { pid: string }) => {
+    if (!mulliganPending.includes(pid)) return null;
+    return (
+      <div style={{ padding: "8px 12px", background: "#2a1a3a", border: "1px solid var(--warning)", borderRadius: "6px", display: "flex", alignItems: "center", gap: "10px", marginTop: "6px" }}>
+        <span style={{ color: "var(--warning)", fontSize: "13px", fontWeight: "bold" }}>マリガン?</span>
+        <span style={{ color: "var(--text-muted)", fontSize: "12px", flex: 1 }}>
+          手札: {gameState.hands[pid]?.length ?? 0}枚
+        </span>
+        <button className="danger small" onClick={() => sendCommand({ type: "mulligan", playerId: pid })}>
+          マリガン
+        </button>
+        <button className="primary small" onClick={() => sendCommand({ type: "keep-hand", playerId: pid })}>
+          キープ
+        </button>
+      </div>
+    );
+  };
 
   // ローカル対戦ではplayerIdsのどちらでも操作できる
   // WebRTC対戦ではopponentId = 相手
@@ -148,8 +167,7 @@ export default function GameBoard({ isLocal }: Props) {
                 />
                 <div style={{ marginTop: "6px" }}>
                   <HandView playerId={p2id} isOpponent={false} />
-                </div>
-                <div style={{ marginTop: "6px" }}>
+                </div>                <MulliganBar pid={p2id} />                <div style={{ marginTop: "6px" }}>
                   <BattlefieldView playerId={p2id} label={`${p2.displayName}の戦場`} />
                 </div>
               </div>
@@ -169,6 +187,11 @@ export default function GameBoard({ isLocal }: Props) {
               <div style={{ marginTop: "6px" }}>
                 <HandView playerId={opponentId} isOpponent={true} />
               </div>
+              {mulliganPending.includes(opponentId) && (
+                <div style={{ padding: "6px 12px", background: "#2a1a3a", border: "1px solid var(--warning)", borderRadius: "6px", marginTop: "6px", fontSize: "12px", color: "var(--warning)" }}>
+                  マリガン検討中…
+                </div>
+              )}
               <div style={{ marginTop: "6px" }}>
                 <BattlefieldView playerId={opponentId} label="相手の戦場" />
               </div>
@@ -195,6 +218,7 @@ export default function GameBoard({ isLocal }: Props) {
               <div style={{ marginBottom: "6px" }}>
                 <HandView playerId={p1id} isOpponent={false} />
               </div>
+              <MulliganBar pid={p1id} />
               <PlayerInfo
                 player={p1}
                 isLocal={true}
@@ -275,6 +299,15 @@ export default function GameBoard({ isLocal }: Props) {
               const cardName = gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId;
               const dest = ev.toLibraryTop ? "ライブラリートップへ" : "墓地へ";
               detail = `${cardName} が打ち消された → ${dest}`;
+            } else if (ev.type === "mulligan-declared") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              const names = ev.returnedCardInstanceIds
+                .map((id) => gameState.cardInstances[id]?.name ?? id)
+                .join(", ");
+              detail = `${who} がマリガン: [${names}] を返した`;
+            } else if (ev.type === "hand-kept") {
+              const who = gameState.players[ev.playerId]?.displayName ?? ev.playerId;
+              detail = `${who} が手札をキープした`;
             } else if (ev.type === "card-moved") {
               const cardName = ev.revealed !== false
                 ? (gameState.cardInstances[ev.cardInstanceId]?.name ?? ev.cardInstanceId)
