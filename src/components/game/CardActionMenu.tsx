@@ -45,6 +45,7 @@ export default function CardActionMenu({ instance, zone, onClose, activePlayerId
   };
 
   const isMulliganPhase = (gameState.mulliganPending?.length ?? 0) > 0;
+  const isLand = !!cardData?.typeLine?.includes("Land");
 
   const handActions = (
     <>
@@ -54,16 +55,19 @@ export default function CardActionMenu({ instance, zone, onClose, activePlayerId
           ⚠️ 全員のマリガンが完了するまでプレイできません
         </p>
       )}
-      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() =>
-        handleAction(() => sendCommand({ type: "play-land", playerId, cardInstanceId: instance.instanceId }))
-      }>
-        土地としてプレイ
-      </button>
-      <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() =>
-        handleAction(() => sendCommand({ type: "cast-spell", playerId, cardInstanceId: instance.instanceId }))
-      }>
-        呪文として唱える
-      </button>
+      {isLand ? (
+        <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() =>
+          handleAction(() => sendCommand({ type: "play-land", playerId, cardInstanceId: instance.instanceId }))
+        }>
+          土地としてプレイ
+        </button>
+      ) : (
+        <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() =>
+          handleAction(() => sendCommand({ type: "cast-spell", playerId, cardInstanceId: instance.instanceId }))
+        }>
+          呪文として唱える
+        </button>
+      )}
       <button className="secondary" style={{ width: "100%", marginBottom: "6px" }} disabled={isMulliganPhase} onClick={() => moveCard("shared-graveyard")}>
         捨てる（墓地へ）
       </button>
