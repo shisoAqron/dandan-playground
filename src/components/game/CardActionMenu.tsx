@@ -15,10 +15,9 @@ type Props = {
   activePlayerId: string;
 };
 
-export default function CardActionMenu({ instance, zone, onClose }: Props) {
+export default function CardActionMenu({ instance, zone, onClose, activePlayerId: playerId }: Props) {
   const sendCommand = useMatchStore((s) => s.sendCommand);
   const gameState = useMatchStore((s) => s.gameState);
-  const playerId = useMatchStore((s) => s.playerId);
   const [showDetail, setShowDetail] = useState(false);
 
   const cardData = cardDataMap.get(instance.cardId);
