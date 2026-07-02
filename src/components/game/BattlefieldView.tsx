@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useMatchStore } from "../../store/matchStore";
 import CardView from "../shared/CardView";
 import CardActionMenu from "./CardActionMenu";
 import type { CardInstance } from "../../types/card";
+
+const LONG_PRESS_MS = 500;
 
 type Props = {
   playerId: string;
@@ -11,8 +13,13 @@ type Props = {
 
 export default function BattlefieldView({ playerId, label }: Props) {
   const gameState = useMatchStore((s) => s.gameState);
+  const sendCommand = useMatchStore((s) => s.sendCommand);
   const [selectedInstance, setSelectedInstance] = useState<CardInstance | null>(null);
   const localPlayerId = useMatchStore((s) => s.playerId);
+
+  // 長押し検出用（instanceId → timer）
+  const longPressTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const longPressFired = useRef<Set<string>>(new Set());
 
   if (!gameState) return null;
 
@@ -20,8 +27,40 @@ export default function BattlefieldView({ playerId, label }: Props) {
     (c) => c.controllerPlayerId === playerId
   );
 
-  // Islandをコントロールしているか確認
   const hasIsland = myCards.some((c) => c.name === "Island");
+
+  const handlePointerDown = (e: React.PointerEvent, inst: CardInstance) => {
+    if (e.button === 2) return; // 右クリックは contextmenu で処理
+    longPressFired.current.delete(inst.instanceId);
+    const timer = setTimeout(() => {
+      longPressFired.current.add(inst.instanceId);
+      setSelectedInstance(inst);
+    }, LONG_PRESS_MS);
+    longPressTimers.current.set(inst.instanceId, timer);
+  };
+
+  const handlePointerUp = (inst: CardInstance) => {
+    const timer = longPressTimers.current.get(inst.instanceId);
+    if (timer) {
+      clearTimeout(timer);
+      longPressTimers.current.delete(inst.instanceId);
+    }
+  };
+
+  const handleClick = (inst: CardInstance) => {
+    // 長押しで既にメニューを出していたらスキップ
+    if (longPressFired.current.has(inst.instanceId)) {
+      longPressFired.current.delete(inst.instanceId);
+      return;
+    }
+    // 短押し → タップ/アンタップ
+    sendCommand({ type: "tap-card", playerId: localPlayerId, cardInstanceId: inst.instanceId, tapped: !inst.tapped });
+  };
+
+  const handleContextMenu = (e: React.MouseEvent, inst: CardInstance) => {
+    e.preventDefault();
+    setSelectedInstance(inst);
+  };
 
   return (
     <div>
@@ -48,12 +87,20 @@ export default function BattlefieldView({ playerId, label }: Props) {
           </div>
         )}
         {myCards.map((inst) => (
-          <div key={inst.instanceId} style={{ position: "relative" }}>
+          <div
+            key={inst.instanceId}
+            style={{ position: "relative", touchAction: "none", userSelect: "none", cursor: "pointer" }}
+            onPointerDown={(e) => handlePointerDown(e, inst)}
+            onPointerUp={() => handlePointerUp(inst)}
+            onPointerLeave={() => handlePointerUp(inst)}
+            onPointerCancel={() => handlePointerUp(inst)}
+            onClick={() => handleClick(inst)}
+            onContextMenu={(e) => handleContextMenu(e, inst)}
+          >
             <CardView
               instance={inst}
               size="sm"
               showTapped={true}
-              onClick={() => setSelectedInstance(inst)}
             />
             {inst.annotations && (
               <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(0,0,0,0.7)", fontSize: "9px", padding: "2px", textAlign: "center", color: "var(--warning)", borderRadius: "0 0 4px 4px" }}>
@@ -75,3 +122,4 @@ export default function BattlefieldView({ playerId, label }: Props) {
     </div>
   );
 }
+

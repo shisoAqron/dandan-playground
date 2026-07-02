@@ -127,16 +127,19 @@ export default function CardView({ instance, size = "md", selected, onClick, sho
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
   const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleMouseEnter = useCallback((e: React.MouseEvent) => {
+  const handlePointerEnter = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === "touch") return;
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
     setTooltip({ x: e.clientX, y: e.clientY });
   }, []);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === "touch") return;
     setTooltip({ x: e.clientX, y: e.clientY });
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
+  const handlePointerLeave = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === "touch") return;
     leaveTimer.current = setTimeout(() => setTooltip(null), 80);
   }, []);
 
@@ -170,9 +173,9 @@ export default function CardView({ instance, size = "md", selected, onClick, sho
       className={classes}
       style={{ width, cursor: onClick ? "pointer" : "default" }}
       onClick={onClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
+      onPointerEnter={handlePointerEnter}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={handlePointerLeave}
       title={instance.name}
     >
       {imgUrl ? (
