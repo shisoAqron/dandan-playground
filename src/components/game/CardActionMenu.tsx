@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { useMatchStore } from "../../store/matchStore";
 import type { CardInstance } from "../../types/card";
+import type { CardData } from "../../types/card";
 import CardView from "../shared/CardView";
 import type { Zone } from "../../types/game";
+import dandanCardsRaw from "../../data/dandan-cards.json";
+
+const cardDataMap = new Map((dandanCardsRaw as CardData[]).map((c) => [c.id, c]));
 
 type Props = {
   instance: CardInstance;
@@ -14,6 +19,9 @@ export default function CardActionMenu({ instance, zone, onClose }: Props) {
   const sendCommand = useMatchStore((s) => s.sendCommand);
   const gameState = useMatchStore((s) => s.gameState);
   const playerId = useMatchStore((s) => s.playerId);
+  const [showDetail, setShowDetail] = useState(false);
+
+  const cardData = cardDataMap.get(instance.cardId);
 
 
 
@@ -171,8 +179,11 @@ export default function CardActionMenu({ instance, zone, onClose }: Props) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()} style={{ maxWidth: "480px" }}>
         <div style={{ display: "flex", gap: "16px" }}>
-          <div style={{ flexShrink: 0 }}>
+          <div style={{ flexShrink: 0, display: "flex", flexDirection: "column", gap: "6px" }}>
             <CardView instance={instance} size="md" />
+            <button className="secondary small" style={{ width: "100%" }} onClick={() => setShowDetail(true)}>
+              説明 / 拡大
+            </button>
           </div>
           <div style={{ flex: 1 }}>
             <h2 style={{ marginBottom: "4px", fontSize: "1rem" }}>{instance.name}</h2>
@@ -197,10 +208,60 @@ export default function CardActionMenu({ instance, zone, onClose }: Props) {
             </div>
           </div>
         </div>
-        <button className="secondary" style={{ width: "100%", marginTop: "12px" }} onClick={onClose}>
+        <button className="secondary" style={{ width: "100%", marginTop: "10px" }} onClick={onClose}>
           閉じる
         </button>
       </div>
+
+      {showDetail && (
+        <div
+          className="modal-overlay"
+          style={{ zIndex: 2000 }}
+          onClick={(e) => { e.stopPropagation(); setShowDetail(false); }}
+        >
+          <div
+            className="modal"
+            style={{ maxWidth: "340px", padding: "16px" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {cardData?.imageUris?.large ? (
+              <img
+                src={cardData.imageUris.large}
+                alt={instance.name}
+                style={{ width: "100%", borderRadius: "10px", display: "block", marginBottom: "10px" }}
+              />
+            ) : cardData?.imageUris?.normal ? (
+              <img
+                src={cardData.imageUris.normal}
+                alt={instance.name}
+                style={{ width: "100%", borderRadius: "10px", display: "block", marginBottom: "10px" }}
+              />
+            ) : null}
+            <div style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "4px" }}>
+              {cardData?.printedName ?? instance.name}
+              {cardData?.manaCost && (
+                <span style={{ color: "var(--accent)", marginLeft: "8px", fontWeight: "normal", fontSize: "13px" }}>{cardData.manaCost}</span>
+              )}
+            </div>
+            <div style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "6px" }}>
+              {cardData?.printedTypeLine ?? cardData?.typeLine ?? ""}
+            </div>
+            {(cardData?.printedText ?? cardData?.oracleText) && (
+              <div style={{ fontSize: "12px", lineHeight: "1.6", whiteSpace: "pre-wrap", marginBottom: "6px" }}>
+                {cardData?.printedText ?? cardData?.oracleText}
+              </div>
+            )}
+            {cardData?.power && (
+              <div style={{ fontSize: "13px", color: "var(--text-muted)", textAlign: "right" }}>
+                {cardData.power}/{cardData.toughness}
+              </div>
+            )}
+            <button className="secondary" style={{ width: "100%", marginTop: "12px" }} onClick={() => setShowDetail(false)}>
+              閉じる
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
