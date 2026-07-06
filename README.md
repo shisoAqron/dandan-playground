@@ -1,5 +1,7 @@
 # Dandân Playground
 
+![Dandân Playground](public/card.png)
+
 **Dandân / Forgetful Fish** をブラウザ上でオンライン対戦できるウェブアプリです。
 
 > **このアプリはファンメイドのコンテンツです。**  
