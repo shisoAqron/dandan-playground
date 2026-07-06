@@ -45,6 +45,16 @@ export default function TopPage() {
       </div>
 
       <footer style={{ position: "fixed", bottom: "16px", left: "0", right: "0", textAlign: "center" }}>
+        <p style={{ color: "var(--text-muted)", fontSize: "11px", lineHeight: "1.6", marginBottom: "4px" }}>
+          <a
+            href="https://github.com/shisoAqron/dandan-playground"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "var(--text-muted)", textDecoration: "underline" }}
+          >
+            GitHub
+          </a>
+        </p>
         <p style={{ color: "var(--text-muted)", fontSize: "11px", lineHeight: "1.6" }}>
           This is unofficial Fan Content permitted under the Fan Content Policy.<br />
           Not approved/endorsed by Wizards.<br />
