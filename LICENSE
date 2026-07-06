@@ -1,0 +1,77 @@
+Dandân Playground — ライセンス / License
+=========================================
+
+## ソースコード / Source Code
+
+Copyright (c) 2026 shisoAqron
+
+本リポジトリのソースコード（src/ 以下のファイル、設定ファイル等）は
+MIT ライセンスのもとで公開されます。
+
+なお、本プロジェクトのコードおよびドキュメントの一部は
+GitHub Copilot（AI コーディングアシスタント）を利用して作成されています。
+
+The source code in this repository (files under src/, configuration files, etc.)
+is released under the MIT License.
+
+Portions of the code and documentation in this project were created with the
+assistance of GitHub Copilot, an AI coding assistant.
+
+---
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## Magic: The Gathering コンテンツ / Magic: The Gathering Content
+
+本リポジトリに含まれるカード名、カードテキスト、タイプライン等の
+Magic: The Gathering 関連コンテンツは Wizards of the Coast LLC の
+著作物・商標であり、MIT ライセンスの適用範囲外です。
+
+これらのコンテンツの利用は、Wizards of the Coast ファンコンテンツポリシー
+（https://company.wizards.com/en/legal/fancontentpolicy）に従います。
+
+Card names, card text, type lines, and other Magic: The Gathering-related
+content included in this repository are the intellectual property and
+trademarks of Wizards of the Coast LLC, and are NOT covered by the MIT License
+above.
+
+Use of such content is governed by the Wizards of the Coast Fan Content Policy:
+https://company.wizards.com/en/legal/fancontentpolicy
+
+This is unofficial Fan Content permitted under the Fan Content Policy.
+Not approved/endorsed by Wizards.
+Portions of the materials used are property of Wizards of the Coast.
+© Wizards of the Coast LLC.
+
+---
+
+## カードデータ / Card Data (Scryfall)
+
+本リポジトリに含まれるカードデータ（src/data/dandan-cards.json 等）は
+Scryfall API を通じて取得したものです。
+これらのデータは Scryfall の利用規約に従います。
+https://scryfall.com/docs/terms
+
+Card data included in this repository (e.g. src/data/dandan-cards.json) was
+retrieved via the Scryfall API and is subject to Scryfall's Terms of Service:
+https://scryfall.com/docs/terms
